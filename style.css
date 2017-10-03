@@ -1,0 +1,22 @@
+
+body {
+    background-color: white;
+}
+
+h1 {
+    color: black;
+    text-align: center;
+}
+
+p {
+    font-family: verdana;
+    font-size: 20px;
+    border: 1px solid powderblue;
+    padding: 30px;
+}
+p.center  {
+    text-align:center;
+
+}
+
+
