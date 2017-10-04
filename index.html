@@ -10,7 +10,9 @@
 <p id="center">Welcome super best team member</p>
 <div id="drop_zone">Drop Your JSon File here</div>
 
-<p id="list"></p>
+<blockquote class="example-right" id="list">
+</blockquote>
+<p id="user"></p>
 
 <script>
     function handleFileSelect(evt) {
@@ -28,6 +30,7 @@
                 '</li>');
         }
         document.getElementById('list').innerHTML = '<ul>' + output.join('') + '</ul>';
+        document.getElementById('user').innerHTML = 'User1';
     }
 
     function handleDragOver(evt) {
