@@ -6,11 +6,13 @@ body {
 h1 {
     color: black;
     text-align: center;
+
 }
 
 p {
     font-family: verdana;
     font-size: 20px;
+    background-color: lightblue;
     border: 1px solid powderblue;
     padding: 30px;
 }
@@ -18,5 +20,24 @@ p.center  {
     text-align:center;
 
 }
-
-
+button {
+    margin-top: 20px;
+    line-height: 60px;
+    font-weight: bold;
+    padding: 0 40px;
+    background: powderblue;
+    border: none;
+}
+button:hover {
+    background: cornflowerblue;
+}
+#drop_zone {
+    border: 2px dashed #bbb;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    padding: 25px;
+    text-align: center;
+    font: 20pt bold verdana;
+    color: #bbb;
+}
