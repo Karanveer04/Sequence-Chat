@@ -12,7 +12,12 @@
 
 <blockquote class="example-right" id="list">
 </blockquote>
+
 <p id="user"></p>
+
+<blockquote class="example-left" id="list2">
+</blockquote>
+<p id="user2" align="right" margin-right="50px" padding="30px" ></p>
 
 <script>
     function handleFileSelect(evt) {
@@ -26,11 +31,13 @@
         for (var i = 0, f; f = files[i]; i++) {
             output.push(/*'<li><strong>', escape(f.name), '</strong> (', f.type || 'n/a', ') - ',
                 f.size, ' bytes, last modified: ',
-                f.lastModifiedDate ? f.lastModifiedDate.toLocaleDateString() : 'n/a',*/ 'Good Job Team Member. This is NOT a Cult',
+                f.lastModifiedDate ? f.lastModifiedDate.toLocaleDateString() : 'n/a',*/ 'ThisIsNotACULT()',
                 '</li>');
         }
         document.getElementById('list').innerHTML = '<ul>' + output.join('') + '</ul>';
-        document.getElementById('user').innerHTML = 'User1';
+        document.getElementById('user').innerHTML = 'FlawLessLeader';
+        document.getElementById('list2').innerHTML = '<ul>' + 'AlwaysHappyNeverSad()' +'</ul>';
+        document.getElementById('user2').innerHTML = 'Happy Follower';
     }
 
     function handleDragOver(evt) {
