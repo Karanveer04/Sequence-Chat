@@ -1,101 +1,75 @@
+* {
+    box-sizing: border-box;
+}
 
 body {
     background-color: white;
+    margin: 0 auto;
+}
+
+header {
+    background-color: #6A5ACD;
+    border-bottom: 2px solid #27408b;   /*#466995;*/
+    position: fixed;
+    width: 100%;
+    z-index: 10;
+    text-align: center;
 }
 
 h1 {
-    color: black;
-    text-align: center;
+    color: #ffffff;
+    font-family: 'Raleway', sans-serif;
+    font-size: 32px;
+    font-weight: 300;
+    text-transform: capitalize;
+    /*text-align: center;*/
+}
 
+h2 {
+    /*color: #bbb;*/
+    font-family: Verdana, sans-serif;
+    font-size: 16px;
+    padding: 17px;
+    color: #466995;
 }
 
 p {
-    font-family: verdana;
-   font-size: 10px;
+    font-family: Verdana, sans-serif;
+    font-size: 10px;
     /*background-color: lightblue;*/
     /*border: 1px solid powderblue;*/
     padding: 30px;
 }
-p.center  {
-    text-align:center;
 
-}
-
-p.left{
-    text-align: right;
-}
-button {
-    margin-top: 20px;
-    line-height: 60px;
-    font-weight: bold;
-    padding: 0 40px;
-    background: powderblue;
-    border: none;
-}
-button:hover {
-    background: cornflowerblue;
-}
 #drop_zone {
     border: 2px dashed #bbb;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
     border-radius: 5px;
-    padding: 25px;
     text-align: center;
-    font: 20pt bold verdana;
-    color: #bbb;
-}
-
-p.speech {
+   /* box-sizing: border-box;*/
+    /*padding: 25px;*/
+    width: 90%;
     position: relative;
-    width: 200px;
-    height: 100px;
-    text-align: center;
-    line-height: 100px;
-    background-color: #fff;
-    border: 8px solid #666;
-    -webkit-border-radius: 30px;
-    -moz-border-radius: 30px;
-    border-radius: 30px;
-    -webkit-box-shadow: 2px 2px 4px #888;
-    -moz-box-shadow: 2px 2px 4px #888;
-    box-shadow: 2px 2px 4px #888;
+    top: 83px;
 }
-
-.triangle-isosceles {
-    position:relative;
-    padding:15px;
-    /*margin:1em 0 3em;*/
-    color:#000;
-    background:#f3961c; /* default background for browsers without gradient support */
-    /* css3 */
-    background:-webkit-gradient(linear, 0 0, 0 100%, from(#f9d835), to(#f3961c));
-    background:-moz-linear-gradient(#f9d835, #f3961c);
-    background:-o-linear-gradient(#f9d835, #f3961c);
-    background:linear-gradient(#f9d835, #f3961c);
-    -webkit-border-radius:10px;
-    -moz-border-radius:10px;
-    border-radius:10px;
-
-    margin-left:50px;
-    background:#f3961c;
-}
-
 
 .example-right {
+    top: 80px;
     position:relative;
     padding:15px 30px;
     margin-top:10px;
     color:#000;
-    background:#f3961c; /* default background for browsers without gradient support */
+    background:#af473c; /* default background for browsers without gradient support */
     /* css3 */
-    background:-webkit-gradient(linear, 0 0, 0 100%, from(#f9d835), to(#f3961c));
-    background:-moz-linear-gradient(#f9d835, #f3961c);
-    background:-o-linear-gradient(#f9d835, #f3961c);
-    background:linear-gradient(#f9d835, #f3961c);
+    background:-webkit-gradient(linear, 0 0, 0 100%, from(#af473c), to(#57231e));
+    background:-moz-linear-gradient(#af473c, #57231e);
+    background:-o-linear-gradient(#af473c, #57231e);
+    background:linear-gradient(#af473c, #57231e);
     -webkit-border-radius:10px;
     -moz-border-radius:10px;
     border-radius:10px;
+    visibility: hidden;
 }
 
 /* display of quote author (alternatively use a class on the element following the blockquote) */
@@ -109,27 +83,46 @@ p.speech {
     left:50px;
     border-width:0 20px 50px 0px;
     border-style:solid;
-    border-color:transparent#f3961c;
+    border-color:transparent#57231e;
     /* reduce the damage in FF3.0 */
     display:block;
     width:0;
 }
 
+.button {
+    border: none;
+    background-color: #e7e7e7;
+    color: black;
+    font-size: 24px;
+    padding: 25px 35px;
+    float:right;
+    box-shadow: 0 5px #999;
+    border-radius: 5px;
+    display: inline-block;
+}
+
+.button:active {
+    background-color: #999;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+}
 
 .example-left {
+    top: 80px;
     position:relative;
     padding:15px 30px;
     margin-top:10px;
     color:#000;
-    background:#f3961c; /* default background for browsers without gradient support */
+    background:#6E7376; /* default background for browsers without gradient support */
     /* css3 */
-    background:-webkit-gradient(linear, 0 0, 0 100%, from(#f9d835), to(#f3961c));
-    background:-moz-linear-gradient(#f9d835, #f3961c);
-    background:-o-linear-gradient(#f9d835, #f3961c);
-    background:linear-gradient(#f9d835, #f3961c);
+    background:-webkit-gradient(linear, 0 0, 0 100%, from(#6E7376), to(#3C3C3C));
+    background:-moz-linear-gradient(#6E7376, #3C3C3C);
+    background:-o-linear-gradient(#6E7376, #3C3C3C);
+    background:linear-gradient(#6E7376, #3C3C3C);
     -webkit-border-radius:10px;
     -moz-border-radius:10px;
     border-radius:10px;
+    visibility: hidden;
 }
 
 /* display of quote author (alternatively use a class on the element following the blockquote) */
@@ -143,7 +136,7 @@ p.speech {
     right:50px;
     border-width:0 0px 50px 20px;
     border-style:solid;
-    border-color:transparent#f3961c;
+    border-color:transparent#3C3C3C;
     /* reduce the damage in FF3.0 */
     display:block;
     width:0;

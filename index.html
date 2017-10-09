@@ -3,12 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <title>Super Best Applicaton for Viewing This</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body>
 
-<p id="center">Welcome super best team member</p>
-<div id="drop_zone">Drop Your JSon File here</div>
+<header>
+<h1 id="center">sequence chat</h1>
+</header>
+
+<div id="drop_zone">
+    <h2> Drop Your JSon File here</h2>
+</div>
+
+<input id="btn" type="file" style="display:none;" onchange="document.getElementById('file').value=this.value.substring(this.value.lastIndexOf('\\')+1);">
+<button id="browse" class="button" onclick="document.getElementById('btn').click()">Browse</button>
 
 <blockquote class="example-right" id="list">
 </blockquote>
@@ -17,7 +25,8 @@
 
 <blockquote class="example-left" id="list2">
 </blockquote>
-<p id="user2" align="right" margin-right="50px" padding="30px" ></p>
+
+<p id="user2" ></p>
 
 <script>
     function handleFileSelect(evt) {
