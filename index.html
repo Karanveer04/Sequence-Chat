@@ -1,66 +1,118 @@
 <!DOCTYPE html>
-<html lang="en" xmlns: xmlns:class="http://www.w3.org/1999/xhtml">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Super Best Applicaton for Viewing This</title>
+    <title>SuperbEst Project</title>
     <link rel="stylesheet" href="style.css" type="text/css">
 </head>
+
+
 <body>
-
 <header>
-<h1 id="center">sequence chat</h1>
+    <h1 id="center">sequence chat</h1>
 </header>
+sdfsfdsfsdfsdf
+<div id="dump">
+    <div id="drop_zone">
+        <h2> Drop Your JSon File here</h2>
+    </div>
 
-<div id="drop_zone">
-    <h2> Drop Your JSon File here</h2>
+    <input id="btn" type="file" style="display:none;" onchange="document.getElementById('file').value=this.value.substring(this.value.lastIndexOf('\\')+1);">
+    <button id="browse" class="button" onclick="document.getElementById('btn').click()">Browse</button>
+
 </div>
 
-<input id="btn" type="file" style="display:none;" onchange="document.getElementById('file').value=this.value.substring(this.value.lastIndexOf('\\')+1);">
-<button id="browse" class="button" onclick="document.getElementById('btn').click()">Browse</button>
+<div class="l-wrap">
+    <div class="three-col-grid">
+        <div class="grid-item">
+            <section class="module">
 
-<blockquote class="example-right" id="list">
-</blockquote>
+                <div class="top-bar">
 
-<p id="user"></p>
+                    <div class="left">
+                        <<span class="icon typicons-message"></span>
+                        <h1>User One</h1>
+                    </div>
 
-<blockquote class="example-left" id="list2">
-</blockquote>
 
-<p id="user2" ></p>
 
-<script>
-    function handleFileSelect(evt) {
-        evt.stopPropagation();
-        evt.preventDefault();
+                </div>
 
-        var files = evt.dataTransfer.files; // FileList object.
+                <ol class="discussion">
+                    <li class="other">
+                        <div class="avatar">
+                            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/5/profile/profile-80_9.jpg" />
+                        </div>
+                        <div class="messages">
+                            <p>yeah, they do early flights cause they connect with big airports.  they wanna get u to your connection</p>
+                            <time datetime="2009-11-13T20:00">Timothy • 51 min</time>
+                        </div>
+                    </li>
+                    <li class="self">
+                        <div class="avatar">
+                            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/profile/profile-80_20.jpg" />
+                        </div>
+                        <div class="messages">
+                            <p>That makes sense.</p>
+                            <p>It's a pretty small airport.</p>
+                            <time datetime="2009-11-13T20:14">37 mins</time>
+                        </div>
+                    </li>
+                    <li class="other">
+                        <div class="avatar">
+                            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/5/profile/profile-80_9.jpg" />
+                        </div>
+                        <div class="messages">
+                            <p>that mongodb thing looks good, huh?</p>
+                            <p>
+                                tiny master db, and huge document store</p>
+                        </div>
+                    </li>
+                </ol>
 
-        // files is a FileList of File objects. List some properties.
-        var output = [];
-        for (var i = 0, f; f = files[i]; i++) {
-            output.push(/*'<li><strong>', escape(f.name), '</strong> (', f.type || 'n/a', ') - ',
-                f.size, ' bytes, last modified: ',
-                f.lastModifiedDate ? f.lastModifiedDate.toLocaleDateString() : 'n/a',*/ 'ThisIsNotACULT()',
-                '</li>');
-        }
-        document.getElementById('list').innerHTML = '<ul>' + output.join('') + '</ul>';
-        document.getElementById('user').innerHTML = 'FlawLessLeader';
-        document.getElementById('list2').innerHTML = '<ul>' + 'AlwaysHappyNeverSad()' +'</ul>';
-        document.getElementById('user2').innerHTML = 'Happy Follower';
-    }
+            </section>
+        </div>
+        <div class="grid-item">
+            <section class="module">
 
-    function handleDragOver(evt) {
-        evt.stopPropagation();
-        evt.preventDefault();
-        evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
-    }
+                <div class="top-bar">
 
-    // Setup the dnd listeners.
-    var dropZone = document.getElementById('drop_zone');
-    dropZone.addEventListener('dragover', handleDragOver, false);
-    dropZone.addEventListener('drop', handleFileSelect, false);
-</script>
+                    <div class="left">
+                        <span class="icon typicons-message"></span>
+                        <h1>Hangouts</h1>
+                    </div>
 
+                </div>
+
+                <ol class="discussion">
+                    <li class="other">
+
+                        <div class="messages">
+                            <p>yeah, they do early flights cause they connect with big airports.  they wanna get u to your connection</p>
+                            <time datetime="2009-11-13T20:00">Timothy • 51 min</time>
+                        </div>
+                    </li>
+                    <li class="self">
+                        <div class="messages">
+                            <p>That makes sense.</p>
+                            <p>It's a pretty small airport.</p>
+                            <time datetime="2009-11-13T20:14">37 mins</time>
+                        </div>
+                    </li>
+                    <li class="other">
+
+                        <div class="messages">
+                            <p>that mongodb thing looks good, huh?</p>
+                            <p>
+                                tiny master db, and huge document store</p>
+                        </div>
+                    </li>
+                </ol>
+
+            </section>
+        </div>
+    </div>
+</div>
 
 
 

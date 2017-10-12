@@ -1,44 +1,146 @@
-* {
-    box-sizing: border-box;
-}
-
-body {
-    background-color: white;
-    margin: 0 auto;
+@import url(http://weloveiconfonts.com/api/?family=typicons);
+[class*="typicons-"]:before {
+    font-family: 'Typicons', sans-serif;
 }
 
 header {
     background-color: #6A5ACD;
     border-bottom: 2px solid #27408b;   /*#466995;*/
-    position: fixed;
+    position: absolute;
     width: 100%;
     z-index: 10;
     text-align: center;
 }
 
-h1 {
-    color: #ffffff;
-    font-family: 'Raleway', sans-serif;
-    font-size: 32px;
-    font-weight: 300;
-    text-transform: capitalize;
-    /*text-align: center;*/
+header-grid {
+    background-color: #6A5ACD;
+    border-bottom: 2px solid #27408b;   /*#466995;*/
+    position: absolute;
+    width: 100%;
+    z-index: 10;
+    text-align: center;
 }
+.module {
+    width: 300px;  margin: 20px auto;
 
-h2 {
-    /*color: #bbb;*/
-    font-family: Verdana, sans-serif;
-    font-size: 16px;
-    padding: 17px;
-    color: #466995;
+
+
 }
-
-p {
-    font-family: Verdana, sans-serif;
-    font-size: 10px;
-    /*background-color: lightblue;*/
-    /*border: 1px solid powderblue;*/
-    padding: 30px;
+.top-bar {
+    background: #666;
+    color: white;
+    padding: 0.5rem;
+    position: relative;
+    overflow: hidden;
+}
+.top-bar h1 {
+    display: inline;
+    font-size: 1.1rem;
+}
+/*.top-bar .typicons-message {
+  display: inline-block;
+  padding: 4px 5px 2px 5px;
+}
+.top-bar .typicons-minus {
+  position: relative;
+  top: 3px;
+}*/
+.top-bar .left {
+    float: left;
+}
+.top-bar .right {
+    float: right;
+    padding-top: 5px;
+}
+.top-bar > * {
+    position: relative;
+}
+.top-bar::before {
+    content: "";
+    position: absolute;
+    top: -100%;
+    left: 0;
+    right: 0;
+    bottom: -100%;
+    opacity: 0.25;
+    background: radial-gradient(white, black);
+    animation: pulse 1s ease alternate infinite;
+}
+.discussion {
+    list-style: none;
+    background: #e5e5e5;
+    margin: 0;
+    padding: 0 0 50px 0;
+}
+.discussion li {
+    padding: 0.5rem;
+    overflow: hidden;
+    display: flex;
+}
+.discussion .avatar {
+    width: 40px;
+    position: relative;
+}
+.discussion .avatar img {
+    display: block;
+    width: 100%;
+}
+.other .avatar:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 0;
+    border: 5px solid white;
+    border-left-color: transparent;
+    border-bottom-color: transparent;
+}
+.self {
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+.self .messages {
+    order: 1;
+    border-bottom-right-radius: 0;
+    background: black;
+}
+.self .avatar {
+    order: 2;
+}
+.self .avatar:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border: 5px solid white;
+    border-right-color: transparent;
+    border-top-color: transparent;
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+.messages {
+    background: white;
+    padding: 10px;
+    border-radius: 2px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+.messages p {
+    font-size: 0.8rem;
+    margin: 0 0 0.2rem 0;
+}
+.messages time {
+    font-size: 0.7rem;
+    color: #ccc;
+}
+@keyframes pulse {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 0.5;
+    }
 }
 
 #drop_zone {
@@ -47,46 +149,11 @@ p {
     -webkit-border-radius: 5px;
     border-radius: 5px;
     text-align: center;
-   /* box-sizing: border-box;*/
+    /* box-sizing: border-box;*/
     /*padding: 25px;*/
     width: 90%;
     position: relative;
     top: 83px;
-}
-
-.example-right {
-    top: 80px;
-    position:relative;
-    padding:15px 30px;
-    margin-top:10px;
-    color:#000;
-    background:#af473c; /* default background for browsers without gradient support */
-    /* css3 */
-    background:-webkit-gradient(linear, 0 0, 0 100%, from(#af473c), to(#57231e));
-    background:-moz-linear-gradient(#af473c, #57231e);
-    background:-o-linear-gradient(#af473c, #57231e);
-    background:linear-gradient(#af473c, #57231e);
-    -webkit-border-radius:10px;
-    -moz-border-radius:10px;
-    border-radius:10px;
-    visibility: hidden;
-}
-
-/* display of quote author (alternatively use a class on the element following the blockquote) */
-.example-right + p {margin:15px 0 2em 85px; font-style:italic;}
-
-/* creates the triangle */
-.example-right:after {
-    content:"";
-    position:absolute;
-    bottom:-50px;
-    left:50px;
-    border-width:0 20px 50px 0px;
-    border-style:solid;
-    border-color:transparent#57231e;
-    /* reduce the damage in FF3.0 */
-    display:block;
-    width:0;
 }
 
 .button {
@@ -107,37 +174,38 @@ p {
     transform: translateY(4px);
 }
 
-.example-left {
-    top: 80px;
-    position:relative;
-    padding:15px 30px;
-    margin-top:10px;
-    color:#000;
-    background:#6E7376; /* default background for browsers without gradient support */
-    /* css3 */
-    background:-webkit-gradient(linear, 0 0, 0 100%, from(#6E7376), to(#3C3C3C));
-    background:-moz-linear-gradient(#6E7376, #3C3C3C);
-    background:-o-linear-gradient(#6E7376, #3C3C3C);
-    background:linear-gradient(#6E7376, #3C3C3C);
-    -webkit-border-radius:10px;
-    -moz-border-radius:10px;
-    border-radius:10px;
-    visibility: hidden;
+h1 {
+    color: #ffffff;
+    font-family: 'Raleway', sans-serif;
+    font-size: 32px;
+    font-weight: 300;
+    text-transform: capitalize;
+    /*text-align: center;*/
 }
 
-/* display of quote author (alternatively use a class on the element following the blockquote) */
-.example-left + p {margin:15px 0 2em 85px; font-style:italic;}
+.l-wrap {
+    max-width: 1140px;
+    margin-right: auto;
+    margin-left: auto;
+}
+.grid-item {
+    /* width: calc((100% - 24px * 2) / 3); */
+    margin-top: 24px;
+    margin-right: 24px;
+    float: left;
 
-/* creates the triangle */
-.example-left:after {
-    content:"";
-    position:absolute;
-    bottom:-50px;
-    right:50px;
-    border-width:0 0px 50px 20px;
-    border-style:solid;
-    border-color:transparent#3C3C3C;
-    /* reduce the damage in FF3.0 */
-    display:block;
-    width:0;
+}
+/* For a 3-column grid */
+.grid-item:nth-child(3n+3) {
+    margin-right: 0;
+    float: right;
+}
+/* Demo purposes */
+.grid-item {
+    margin-top: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 400px;
+    text-align: center;
 }
