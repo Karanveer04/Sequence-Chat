@@ -3,28 +3,25 @@
     font-family: 'Typicons', sans-serif;
 }
 
+body{
+    background: url(https://images.pexels.com/photos/54632/cat-animal-eyes-grey-54632.jpeg)no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    margin: 0 auto;
+}
+
 header {
     background-color: #6A5ACD;
     border-bottom: 2px solid #27408b;   /*#466995;*/
     position: absolute;
     width: 100%;
-    z-index: 10;
     text-align: center;
 }
 
-header-grid {
-    background-color: #6A5ACD;
-    border-bottom: 2px solid #27408b;   /*#466995;*/
-    position: absolute;
-    width: 100%;
-    z-index: 10;
-    text-align: center;
-}
 .module {
     width: 300px;  margin: 20px auto;
-
-
-
 }
 .top-bar {
     background: #666;
@@ -154,6 +151,8 @@ header-grid {
     width: 90%;
     position: relative;
     top: 83px;
+    background-color: #eaeaea;
+    opacity: 0.5;
 }
 
 .button {
@@ -162,7 +161,8 @@ header-grid {
     color: black;
     font-size: 24px;
     padding: 25px 35px;
-    float:right;
+    float: right;
+    width: 9.9%;
     box-shadow: 0 5px #999;
     border-radius: 5px;
     display: inline-block;
@@ -181,6 +181,14 @@ h1 {
     font-weight: 300;
     text-transform: capitalize;
     /*text-align: center;*/
+}
+
+h2 {
+    /*color: #bbb;*/
+    font-family: Verdana, sans-serif;
+    font-size: 16px;
+    padding: 17px;
+    color: #368cbf;
 }
 
 .l-wrap {
