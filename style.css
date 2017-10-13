@@ -24,7 +24,7 @@ header {
     width: 300px;  margin: 20px auto;
 }
 .top-bar {
-    background: #666;
+    background: #6A5ACD;
     color: white;
     padding: 0.5rem;
     position: relative;
@@ -60,7 +60,7 @@ header {
     right: 0;
     bottom: -100%;
     opacity: 0.25;
-    background: radial-gradient(white, black);
+    background: radial-gradient(#6A5ACD, black);
     animation: pulse 1s ease alternate infinite;
 }
 .discussion {
@@ -100,7 +100,8 @@ header {
 .self .messages {
     order: 1;
     border-bottom-right-radius: 0;
-    background: black;
+    background: #6A5ACD;
+    color: white;
 }
 .self .avatar {
     order: 2;
