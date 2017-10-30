@@ -1,92 +1,111 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>SocketCluster</title>
-    <link href="//fonts.googleapis.com/css?family=Roboto:100,300" rel="stylesheet" type="text/css">
-    <link rel="icon" type="image/png" href="/favicon.ico">
+<head>
+  <title>SocketCluster</title>
+  <link href="//fonts.googleapis.com/css?family=Roboto:100,300" rel="stylesheet" type="text/css">
+  <link rel="icon" type="image/png" href="/favicon.ico">
 
-    <link rel="stylesheet" href="style.css" type="text/css">
-    <script type="text/javascript" src="/socketcluster.js"></script>
+  <link rel="stylesheet" href="style.css" type="text/css">
+  <script type="text/javascript" src="/socketcluster.js"></script>
 
-  </head>
-  <body>
+</head>
+<body>
 
-  <header>
-    <h1 id="center">Sequence Cat</h1>
-  </header>
+<header>
+  <h1 id="center">Sequence Cat</h1>
+</header>
 
-  <div id="dump">
-    <div id="drop_zone">
-      <h2> Drop Your JSon File here</h2>
-    </div>
-
-    <input id="btn" type="file" style="display:none;" onchange="document.getElementById('file').value=this.value.substring(this.value.lastIndexOf('\\')+1);">
-    <button id="browse" class="button" onclick="document.getElementById('btn').click()">Browse</button>
-
+<div id="dump">
+  <div id="drop_zone">
+    <h2> Drop Your JSon File here</h2>
   </div>
 
-  <div class="l-wrap" id="wrap">
-  </div>
+  <input id="btn" type="file" style="display:none;" onchange="document.getElementById('file').value=this.value.substring(this.value.lastIndexOf('\\')+1);">
+  <button id="browse" class="button" onclick="document.getElementById('btn').click()">Browse</button>
 
-  <script type="text/javascript">
-      // Initiate the connection to the server
-      console.log("he");
-      var socket = socketCluster.connect();
-      socket.on('error', function (err) {
-          throw 'Socket error - ' + err;
-      });
-      socket.on('connect', function () {
-          console.log('CONNECTED');
-      });
-      socket.on('word', function (data) {
-          var currentdate = new Date();
-          var datetime = currentdate.getMinutes() + ":"
-              + currentdate.getSeconds();
+</div>
 
-          var user = data.message[1];
-          var div = document.getElementById('wrap');
-          var message = data.message[2];
-          div.innerHTML +=
-              '<div class="three-col-grid">' +
-              '<div class="grid-item">' +
-              '<section class="module">' +
-              '<div class="top-bar">' +
-              '<div class="left">'+
-              '<span class="icon typicons-message"></span>'+
-              '<h1 id="user"> '+ user + '' + ' and ' +'</h1>'+
-              '</div>'+
-              '</div>'+
-              '<ol class="discussion">'+
-              '<li class="other">'+
-              '<div class="messages">'+
-              '<p id="message">' + message +'</p>'+
-              '<time datetime="2009-11-13T20:00">'+user+' •'+datetime+'</time>'+
-              '</div>'+
-              '</li>'+
-              '<li class="self">+' +
-              '<div class="messages">'+
-              '<p></p>'+
-              '<p></p>'+
-              '<time datetime="2009-11-13T20:14">37 mins</time>'+
-              '</div>'+
-              '</li>'+
-              '<li class="other">'+
-              '<div class="messages">'+
-              '<p>that mongodb thing looks good, huh?</p>'+
-              '<p> tiny master db, and huge document store</p>'+
-              '</div>'+
-              '</li>'+
-              '</ol>'+
-              '</section>'+
-              '</div>'+
-              '</div>';
+<div class="l-wrap" id="wrap">
+</div>
 
-          //document.getElementById('user').innerHTML = data.from;
-         // document.getElementById('message').innerHTML +=  data.message[2];
-          console.log('RANDOM STREAM: ' + data.from + data.to + data.message);
-      });
+<script type="text/javascript">
+    // Initiate the connection to the server
+    console.log("he");
+    var socket = socketCluster.connect();
+    socket.on('error', function (err) {
+        throw 'Socket error - ' + err;
+    });
+    socket.on('connect', function () {
+        console.log('CONNECTED');
+    });
+    var channels = [];
+    socket.on('word', function (data) {
+        var fro = data.from;
+        if (fro !== 'g') {
+            var currentdate = new Date();
+            var datetime = currentdate.getMinutes() + ":"
+                + currentdate.getSeconds();
+
+            var user = data.message[1];
+            var div = document.getElementById('wrap');
+            var other = document.getElementById(fro+user);
+            var self = document.getElementById(user+fro);
+            var message = data.message[2];
+            if (channels.includes(user+fro)){
+                self.innerHTML +=
+                    '<li class="self">' +
+                    '<div class="messages">' +
+                    '<p id="message">' + message + '</p>' +
+                    '<time>' +
+                    fro + datetime +
+                    '</time>' +
+                    '</div>' +
+                    '</li>';
+
+            }
+            else if(channels.includes(fro+user)){
+                other.innerHTML +=
+                    '<li class="other">' +
+                    '<div class="messages">' +
+                    '<p id="message">' + message + '</p>' +
+                    '<time>' +
+                    fro + datetime +
+                    '</time>' +
+                    '</div>' +
+                    '</li>';
+
+            }
+            else{
+                div.innerHTML +=
+                    '<div class="three-col-grid">' +
+                    '<div class="grid-item">' +
+                    '<section class="module">' +
+                    '<div class="top-bar">' +
+                    '<div class="left">' +
+                    '<span class="icon typicons-message"></span>' +
+                    '<h1 id="user">' + user + " and " + fro + '</h1>' +
+                    '</div>' +
+                    '</div>' +
+                    '<ol class="discussion" id="'+user+fro+'">' +
+                    '<li class="other">' +
+                    '<div class="messages">' +
+                    '<p id="message">' + message + '</p>' +
+                    '<time id="time">' + fro + ' •' + datetime + '</time>' +
+                    '</div>' +
+                    '</li>' +
+                    '</ol>' +
+                    '</section>' +
+                    '</div>' +
+                    '</div>';
+                channels.push(user+fro);
+            }
+            //document.getElementById('user').innerHTML = data.from;
+            //document.getElementById('message').innerHTML +=  data.message[2];
+            console.log('RANDOM STREAM: ' + data.from + data.to + data.message);
+        }
+    });
 
 </script>
 
-  </body>
+</body>
 </html>
