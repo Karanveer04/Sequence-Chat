@@ -67,10 +67,10 @@
           var user = data.message[1]
 
           var uniqueUser = checkUniqueUser(data.message[1]);
-
+          var message = data.message[2];
           if (uniqueUser == true)
           {
-              var message = data.message[2];
+
 
 
               main.innerHTML +=
@@ -84,13 +84,9 @@
                   '</div>'+
                   '</div>'+
                   '<ol class="discussion">'+
-                  '<li class="other">'+
-                  '<div class="messages">'+
-                  '<p id="message">' + message +'</p>'+
-                  '<time">'+user+' •'+datetime+'</time>'+
-                  '</div>'+
+                  '<li class="other" id="'+ userArray.indexOf(data.message[1])+ '">'+
                   '</li>'+
-                  '<li class="self">+' +
+                  '<li class="self">' +
                   '<div class="messages">'+
                   '<p></p>'+
                   '</div>'+
@@ -105,8 +101,12 @@
           }
           else
           {
-                
 
+              var append = document.getElementById(userArray.indexOf(data.message[1]));
+              append.innerHTML += '<div class="messages"> '+ '<p>' + message + '</p>'+
+                  '<time>'+ user + '•' + datetime + '</time>' +
+              '</div>' +'<br>'
+              ;
 
           }
 
