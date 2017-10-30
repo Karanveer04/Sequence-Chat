@@ -30,7 +30,14 @@
 
   <script type="text/javascript">
       // Initiate the connection to the server
-      console.log("he");
+      var messageSENDER= 0;
+      var messageRECIEVER = 0;
+      var userArray = [];
+
+
+
+
+
       var socket = socketCluster.connect();
       socket.on('error', function (err) {
           throw 'Socket error - ' + err;
@@ -39,47 +46,70 @@
           console.log('CONNECTED');
       });
       socket.on('word', function (data) {
+
           var currentdate = new Date();
           var datetime = currentdate.getMinutes() + ":"
               + currentdate.getSeconds();
 
-          var user = data.message[1];
-          var div = document.getElementById('wrap');
-          var message = data.message[2];
-          div.innerHTML +=
-              '<div class="three-col-grid">' +
-              '<div class="grid-item">' +
-              '<section class="module">' +
-              '<div class="top-bar">' +
-              '<div class="left">'+
-              '<span class="icon typicons-message"></span>'+
-              '<h1 id="user"> '+ user + '' + ' and ' +'</h1>'+
-              '</div>'+
-              '</div>'+
-              '<ol class="discussion">'+
-              '<li class="other">'+
-              '<div class="messages">'+
-              '<p id="message">' + message +'</p>'+
-              '<time datetime="2009-11-13T20:00">'+user+' •'+datetime+'</time>'+
-              '</div>'+
-              '</li>'+
-              '<li class="self">+' +
-              '<div class="messages">'+
-              '<p></p>'+
-              '<p></p>'+
-              '<time datetime="2009-11-13T20:14">37 mins</time>'+
-              '</div>'+
-              '</li>'+
-              '<li class="other">'+
-              '<div class="messages">'+
-              '<p>that mongodb thing looks good, huh?</p>'+
-              '<p> tiny master db, and huge document store</p>'+
-              '</div>'+
-              '</li>'+
-              '</ol>'+
-              '</section>'+
-              '</div>'+
-              '</div>';
+          function checkUniqueUser(user){
+
+              for (var i=0; i < userArray.length; i++) {
+
+                  if (user === userArray[i]) {
+                      return false;
+                  }
+              }
+              userArray.push(user);
+              return true;
+          }
+
+          var main = document.getElementById('wrap');
+          var user = data.message[1]
+
+          var uniqueUser = checkUniqueUser(data.message[1]);
+
+          if (uniqueUser == true)
+          {
+              var message = data.message[2];
+
+
+              main.innerHTML +=
+                  '<div class="three-col-grid">' +
+                  '<div class="grid-item">' +
+                  '<section class="module">' +
+                  '<div class="top-bar">' +
+                  '<div class="left">'+
+                  '<span class="icon typicons-message"></span>'+
+                  '<h1 id="user"> ' + user + ' and ' +'</h1>'+
+                  '</div>'+
+                  '</div>'+
+                  '<ol class="discussion">'+
+                  '<li class="other">'+
+                  '<div class="messages">'+
+                  '<p id="message">' + message +'</p>'+
+                  '<time">'+user+' •'+datetime+'</time>'+
+                  '</div>'+
+                  '</li>'+
+                  '<li class="self">+' +
+                  '<div class="messages">'+
+                  '<p></p>'+
+                  '</div>'+
+                  '</li>'+
+                  '<li class="other">'+
+                  '</li>'+
+                  '</ol>'+
+                  '</section>'+
+                  '</div>'+
+                  '</div>';
+
+          }
+          else
+          {
+                
+
+
+          }
+
 
           //document.getElementById('user').innerHTML = data.from;
          // document.getElementById('message').innerHTML +=  data.message[2];
