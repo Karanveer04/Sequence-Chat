@@ -32,12 +32,12 @@
     });
     var channels = [];
     socket.on('word', function (data) {
-        var fro = data.from;
-        var user = data.message[1];
-        if (fro !== 'g' && user !== undefined) {
+        var user = data.to;
+        if (user !== undefined) {
             var currentdate = new Date();
             var datetime = currentdate.getMinutes() + ":"
                 + currentdate.getSeconds();
+            var fro = data.from;
             var div = document.getElementById('wrap');
             var self = document.getElementById(fro+user);
             var other = document.getElementById(user+fro);
