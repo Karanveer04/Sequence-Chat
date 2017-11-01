@@ -1,8 +1,8 @@
-var SocketCluster = require('socketcluster').SocketCluster;
+var SocketCluster = require('socketcluster').SocketCluster;1
 
 
 var socketCluster = new SocketCluster({
-  workers: 1,
+  workers: 2,
   brokers: 1,
   port: 8000,
   appName: null,

@@ -2,32 +2,24 @@ var fs = require('fs');
 var express = require('express');
 var serveStatic = require('serve-static');
 var path = require('path');
-var morgan = require('morgan');
-var healthChecker = require('sc-framework-health-check');
 
-// INPUT DIAGRAM 
+// INPUT DIAGRAM
 var input = require('./parse.json');
 const actors = input.processes;
 const diagram = input.diagram.content;
+var jsonData;
 
 module.exports.run = function (worker) {
   console.log('   >> Worker PID:', process.pid);
-  var environment = worker.options.environment;
 
   var app = express();
 
   var httpServer = worker.httpServer;
   var scServer = worker.scServer;
 
-  if (environment == 'dev') {
-    // Log every HTTP request. See https://github.com/expressjs/morgan for other
-    // available formats.
-    app.use(morgan('dev'));
-  }
   app.use(serveStatic(path.resolve(__dirname, 'public')));
 
   // Add GET /health-check express route
-  healthChecker.attach(worker, app);
 
   httpServer.on('request', app);
 
@@ -39,20 +31,37 @@ module.exports.run = function (worker) {
   */
   scServer.on('connection', function (socket) {
 
-    // Some sample logic to show how to handle client events,
-    // replace this with your own logic
+    socket.on('go', function(){
+      //Read the JSON input
+      fs.readFile('./parse.json',sendJson)
+    })
+    function sendJson(err, data){
+      if(err) throw err
+      //Parse the JSON input
+      jsonData = JSON.parse(data)
+      //Loop throw the conent of the JSON and send it to frontend
+      jsonData.diagram.content.forEach(function (array) {
+        array.content.forEach(function(x){
+          socket.emit('word',{
+            from: x.from,
+            to: x.to,
+            message: x.message
+          })
+          sleep(1000)
+        })
+      })
+    }
 
-    socket.on('sampleClientEvent', function (data) {
-      console.log('Handled sampleClientEvent', data);
-      scServer.exchange.publish('sample', count);
-    });
 
+
+
+    /*
     var interval = setInterval(function () {
       if(indexMessage < diagram[indexDiagram].content.length){
         socket.emit('word', {
-        from: diagram[indexDiagram].content[indexMessage].from , 
-        to: diagram[indexDiagram].content[indexMessage].to, 
-        message: diagram[indexDiagram].content[indexMessage].message  
+        from: diagram[indexDiagram].content[indexMessage].from ,
+        to: diagram[indexDiagram].content[indexMessage].to,
+        message: diagram[indexDiagram].content[indexMessage].message
       });
       indexMessage++;
       if(indexMessage >= diagram[indexDiagram].content.length && indexDiagram < diagram.length){
@@ -65,5 +74,14 @@ module.exports.run = function (worker) {
     socket.on('disconnect', function () {
       clearInterval(interval);
     });
+    */
   });
+  function sleep(milliseconds) {
+var start = new Date().getTime();
+for (var i = 0; i < 1e7; i++) {
+  if ((new Date().getTime() - start) > milliseconds){
+    break;
+  }
+}
+}
 };

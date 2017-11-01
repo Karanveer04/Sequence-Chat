@@ -22,6 +22,7 @@
 
   <input id="btn" type="file" style="display:none;" onchange="document.getElementById('file').value=this.value.substring(this.value.lastIndexOf('\\')+1);">
   <button id="browse" class="button" onclick="document.getElementById('btn').click()">Browse</button>
+  <button id="sendJson" class="button" onclick="socket.emit('go')">Execute</button>
 
 </div>
 
@@ -41,12 +42,12 @@
     var channels = [];
     socket.on('word', function (data) {
         var fro = data.from;
-        if (fro !== 'g') {
+        var user = data.message[1];
+        if (fro !== 'g' && user !== undefined) {
             var currentdate = new Date();
             var datetime = currentdate.getMinutes() + ":"
                 + currentdate.getSeconds();
 
-            var user = data.message[1];
             var div = document.getElementById('wrap');
             var other = document.getElementById(fro+user);
             var self = document.getElementById(user+fro);
