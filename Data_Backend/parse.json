@@ -27,15 +27,51 @@
 						"content"	:	[
 								{
 										"node"	:	"send",
-										"from"	:	"u1",
+										"from"	:	"Filip",
 										"to"	:	"g",
-										"message"	:	["fwd",	"u2",	"msg1"]
+										"message"	:	["fwd",	"Karan",	"Hello!"]
 							 },
 								{
 										"node"	:	"send",
-										"from"	:	"u3",
+										"from"	:	"Margit",
 										"to"	:	"g",
-										"message"	:	["fwd",	"u1",	"msg2"]
+										"message"	:	["fwd",	"Filip",	"How are you?"]
+								},
+								{
+										"node"	:	"send",
+										"from"	:	"Karan",
+										"to"	:	"g",
+										"message"	:	["fwd",	"Filip",	"Margit is a genius."]
+								},
+								{
+										"node"	:	"send",
+										"from"	:	"Filip",
+										"to"	:	"g",
+										"message"	:	["fwd",	"Margit",	"Karan hates you."]
+								},
+								{
+										"node"	:	"send",
+										"from"	:	"Andrius",
+										"to"	:	"g",
+										"message"	:	["fwd",	"Simon",	"Filip is the real ScrumMaster"]
+								},
+								{
+										"node"	:	"send",
+										"from"	:	"Simon",
+										"to"	:	"g",
+										"message"	:	["fwd",	"Andrius",	"What? You Sure?"]
+								},
+								{
+										"node"	:	"send",
+										"from"	:	"Simon",
+										"to"	:	"g",
+										"message"	:	["fwd",	"Per",	"Jiu Jitsu Man!"]
+								},
+								{
+									"node"	:	"send",
+									"from"	:	"Per",
+									"to"	:	"g",
+									"message"	:	["fwd",	"Simon","You are so lazy!"]
 								},
 								{
 										"node"	:	"send",
