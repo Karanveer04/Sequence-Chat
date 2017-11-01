@@ -4,31 +4,22 @@
   <title>SocketCluster</title>
   <link href="//fonts.googleapis.com/css?family=Roboto:100,300" rel="stylesheet" type="text/css">
   <link rel="icon" type="image/png" href="/favicon.ico">
-
   <link rel="stylesheet" href="style.css" type="text/css">
   <script type="text/javascript" src="/socketcluster.js"></script>
-
 </head>
 <body>
-
 <header>
-  <h1 id="center">Sequence Cat</h1>
+  <h1 id="center">Sequence C(h)at</h1>
 </header>
-
 <div id="dump">
   <div id="drop_zone">
     <h2> Drop Your JSon File here</h2>
   </div>
-
   <input id="btn" type="file" style="display:none;" onchange="document.getElementById('file').value=this.value.substring(this.value.lastIndexOf('\\')+1);">
-  <button id="browse" class="button" onclick="document.getElementById('btn').click()">Browse</button>
-  <button id="sendJson" class="button" onclick="socket.emit('go')">Execute</button>
-
+  <button id="sendJson" class="button" onclick="socket.emit('go');document.getElementById('drop_zone').style.visibility='hidden';this.disabled=true">Execute</button>
 </div>
-
 <div class="l-wrap" id="wrap">
 </div>
-
 <script type="text/javascript">
     // Initiate the connection to the server
     console.log("he");
@@ -47,29 +38,28 @@
             var currentdate = new Date();
             var datetime = currentdate.getMinutes() + ":"
                 + currentdate.getSeconds();
-
             var div = document.getElementById('wrap');
-            var other = document.getElementById(fro+user);
-            var self = document.getElementById(user+fro);
+            var self = document.getElementById(fro+user);
+            var other = document.getElementById(user+fro);
             var message = data.message[2];
             if (channels.includes(user+fro)){
-                self.innerHTML +=
-                    '<li class="self">' +
-                    '<div class="messages">' +
-                    '<p id="message">' + message + '</p>' +
-                    '<time>' +
-                    fro + datetime +
-                    '</time>' +
-                    '</div>' +
-                    '</li>';
-            }
-            else if(channels.includes(fro+user)){
                 other.innerHTML +=
                     '<li class="other">' +
                     '<div class="messages">' +
                     '<p id="message">' + message + '</p>' +
                     '<time>' +
-                    fro + datetime +
+                    fro + ' • ' + datetime +
+                    '</time>' +
+                    '</div>' +
+                    '</li>';
+            }
+            else if(channels.includes(fro+user)){
+                self.innerHTML +=
+                    '<li class="self">' +
+                    '<div class="messages">' +
+                    '<p id="message">' + message + '</p>' +
+                    '<time>' +
+                    fro + ' • ' + datetime +
                     '</time>' +
                     '</div>' +
                     '</li>';
@@ -82,14 +72,14 @@
                     '<div class="top-bar">' +
                     '<div class="left">' +
                     '<span class="icon typicons-message"></span>' +
-                    '<h1 id="user">' + user + " and " + fro + '</h1>' +
+                    '<h1 id="user">' + fro + " and " + user + '</h1>' +
                     '</div>' +
                     '</div>' +
                     '<ol class="discussion" id="'+user+fro+'">' +
                     '<li class="other">' +
                     '<div class="messages">' +
                     '<p id="message">' + message + '</p>' +
-                    '<time id="time">' + fro + ' •' + datetime + '</time>' +
+                    '<time id="time">' + fro + ' • ' + datetime + '</time>' +
                     '</div>' +
                     '</li>' +
                     '</ol>' +
@@ -103,8 +93,6 @@
             console.log('RANDOM STREAM: ' + data.from + data.to + data.message);
         }
     });
-
 </script>
-
 </body>
 </html>
