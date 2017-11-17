@@ -26,8 +26,6 @@
 </div>
 
 <div id='execution_log'>
-    execution log
-
 
 
 </div>
@@ -67,6 +65,7 @@
             var div = document.getElementById('wrap');
             var self = document.getElementById(fro+user);
             var other = document.getElementById(user+fro);
+            var executionLog = document.getElementById('execution_log');
             var message = data.message;
 
 
@@ -121,6 +120,8 @@
             //document.getElementById('user').innerHTML = data.from;
             //document.getElementById('message').innerHTML +=  data.message[2];
             console.log('RANDOM STREAM: ' + data.from + data.to + data.message);
+            executionLog.innerHTML+= '' + data.from + '' + data.to+ '' + data.message;
+
         }
     });
 </script>

@@ -163,13 +163,17 @@ header {
     position:absolute;
     bottom: 5px;
     right: 10px;
-    height:200px;
+
     width: 300px;
     vertical-align: top;
     background-color: white;
     border-color: black;
     border-width: 2px;
-    border-style: solid
+    border-style: solid;
+    max-height: 25%;
+
+    overflow-y: auto;
+    overflow-x: hidden;
 
 }
 
