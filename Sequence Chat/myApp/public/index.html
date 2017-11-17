@@ -17,6 +17,7 @@
   </div>
   <input id="btn" type="file" style="display:none;" onchange="document.getElementById('file').value=this.value.substring(this.value.lastIndexOf('\\')+1);">
  <input type='file' id="upload" onchange="readUrl(this.value); this.style.visibility='hidden'" />
+    <input type="text" id='my_sticky_text' value ="" readonly='readonly'>
 </div>
 <div class="l-wrap" id="wrap">
 </div>
@@ -30,7 +31,6 @@
     socket.on('connect', function () {
         console.log('CONNECTED');
     });
-
 
     var channels = [];
      var sampleChannel = socket.subscribe('sample');
