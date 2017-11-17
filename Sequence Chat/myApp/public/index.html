@@ -25,25 +25,14 @@
 <div class="l-wrap" id="wrap">
 </div>
 
-<div id='execution_log'>
-
+<div class="execution_log" id='execution_log'>
+execution log
 
 </div>
 
 <script type="text/javascript">
 
-    $(document).ready(function() {
-        $('.execution_log').click(function(e) {
-            if($(this).hasClass('open')) {
-                $('.execution_log.out').not($(this)).removeClass('out');
-                $(this).removeClass('open');
-            }
-            else {
-                $('.execution_log').not($(this)).addClass('out');
-                $(this).addClass('open');
-            }
-        });
-    });
+
     // Initiate the connection to the server
     console.log("he");
     var socket = socketCluster.connect();
@@ -148,6 +137,19 @@
             console.log('RANDOM STREAM: ' + data.from + data.to + data.message);
             executionLog.innerHTML+= '' + data.from + '' + data.to+ '' + data.message;
 
+            var box = document.getElementById("execution_log");
+            function expandBox(){
+                if(box.getAttribute("expanded")=="false"){
+                    box.setAttribute("expanded","true");
+                    box.style.height="250px";
+                    box.style.display="block";
+                }else{
+                    box.setAttribute("expanded","false");
+                    box.style.height="20px";
+
+                }
+            }
+            document.getElementById("execution_log").onclick = expandBox;
         }
     });
 </script>
