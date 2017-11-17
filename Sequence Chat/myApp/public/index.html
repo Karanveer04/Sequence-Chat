@@ -31,6 +31,19 @@
 </div>
 
 <script type="text/javascript">
+
+    $(document).ready(function() {
+        $('.execution_log').click(function(e) {
+            if($(this).hasClass('open')) {
+                $('.execution_log.out').not($(this)).removeClass('out');
+                $(this).removeClass('open');
+            }
+            else {
+                $('.execution_log').not($(this)).addClass('out');
+                $(this).addClass('open');
+            }
+        });
+    });
     // Initiate the connection to the server
     console.log("he");
     var socket = socketCluster.connect();
