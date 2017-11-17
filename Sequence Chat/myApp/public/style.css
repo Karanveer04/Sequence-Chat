@@ -159,6 +159,15 @@ header {
     visibility: hidden;
 }
 
+#my_sticky_text{
+    position:absolute;
+    bottom: 5px;
+    right: 10px;
+     height:200px;
+    vertical-align: top;
+}
+
+
 .button {
     border: none;
     background-color: #e7e7e7;
