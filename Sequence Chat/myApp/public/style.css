@@ -159,12 +159,18 @@ header {
     visibility: hidden;
 }
 
-#my_sticky_text{
+#execution_log{
     position:absolute;
     bottom: 5px;
     right: 10px;
-     height:200px;
+    height:200px;
+    width: 300px;
     vertical-align: top;
+    background-color: white;
+    border-color: black;
+    border-width: 2px;
+    border-style: solid
+
 }
 
 
