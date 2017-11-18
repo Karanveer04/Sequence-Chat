@@ -159,23 +159,24 @@ header {
     visibility: hidden;
 }
 
-#execution_log{
-    position:absolute;
+#execution_log {
+    position: fixed;
     bottom: 5px;
     right: 10px;
-
     width: 300px;
+    height: 20px;
     vertical-align: top;
     background-color: white;
     border-color: black;
     border-width: 2px;
     border-style: solid;
-    max-height: 25%;
-
     overflow-y: auto;
     overflow-x: hidden;
 
+
 }
+
+
 
 
 .button {
