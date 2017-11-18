@@ -18,7 +18,7 @@ class Worker extends SCWorker {
 
         var httpServer = this.httpServer;
         var scServer = this.scServer;
-
+//testets
         if (environment == 'dev') {
             // Log every HTTP request. See https://github.com/expressjs/morgan for other
             // available formats.
