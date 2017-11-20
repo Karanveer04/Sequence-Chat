@@ -1,0 +1,15 @@
+{
+  "sourcePort": 2000,
+  "balancerControllerPath": "loadbalancer.js",
+  "targets": [
+    {
+      "host": "localhost",
+      "port": 8000
+    },
+    {
+      "host": "localhost",
+      "port": 8001
+    }
+
+  ]
+}
