@@ -88,6 +88,8 @@ class Worker extends SCWorker {
                   }
                   else if(data.typ == 'class_diagram'){
                     //Code for parsing class diagram
+                    //publish to the right channel
+                    //scServer.exchange.publish('class', data)
                   }
 
                 else{
