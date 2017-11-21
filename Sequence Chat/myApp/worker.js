@@ -44,18 +44,55 @@ class Worker extends SCWorker {
                 //Read the JSON input
                 //Loop throw the conent of the JSON and send it to frontend
                 var data = JSON.parse(jsonData);
-                data.diagram.content.forEach(function (array) {
-                    array.content.forEach(function (x) {
-                      setTimeout(function() {
-                        scServer.exchange.publish('sample', {
-                            from: x.from,
-                            to: x.to,
-                            message: x.message
+                if(data.type == 'sequence_diagram'){
+                  data.diagram.content.forEach(function (array) {
+                      array.content.forEach(function (x) {
+                          scServer.exchange.publish('sample', {
+                              from: x.from,
+                              to: x.to,
+                              message: x.message
+                          })//Math.random() * (9000));
+                          //sleep(1000)
+                      })
+                  })
+                }
+                else if(data.type == 'deployment_diagram'){
+                  //data.mapping.forEach(function (array){
+                    //scServer.exchange.publish('deploy', {
+                      //process: array.process,
+                      //device: array.device
+                    //})
+                    var tree = []
+                    data.mapping.forEach(function(x){
+                      if(x.device == 'server'){
+                        tree.push({
+                          key: x.process,
+                          name: x.process
                         })
-                      }, Math.random() * (9000));
-                      //  sleep(1000)
+                      }
+                      else{
+                        tree.push({
+                          key: x.device,
+                          name: x.device,
+                          parent: 'g'
+                        })
+                        tree.push({
+                          key: x.process,
+                          name: x.process,
+                          parent: x.device
+                        })
+                      }
                     })
-                })
+                    var newTree = Array.from(new Set(tree))
+                    scServer.exchange.publish('deploy', newTree)
+                  }
+                  else if(data.typ == 'class_diagram'){
+                    //Code for parsing class diagram
+                  }
+
+                else{
+                  console.log('WRONG')
+                }
 
             })
 

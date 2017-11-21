@@ -6,6 +6,8 @@
   <link rel="icon" type="image/png" href="/favicon.ico">
   <link rel="stylesheet" href="style.css" type="text/css">
   <script type="text/javascript" src="/socketcluster.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gojs/1.8.2/go.js"></script>
 </head>
 <body>
 <header>
@@ -27,6 +29,9 @@
 
 
 </div>
+    <div id="myDiagramDiv"
+     style="width:500px; height:500px; background-color: transparent;">
+    </div>
 
 <div class="l-wrap" id="wrap">
 </div>
@@ -51,8 +56,13 @@ execution log
 
     var channels = [];
      var sampleChannel = socket.subscribe('sample');
+     var deployChannel = socket.subscribe('deploy');
+     var classChannel = socket.subscribe('class');
 
       sampleChannel.on('subscribeFail', function (err) {
+        console.log('Failed to subscribe to the sample channel due to error: ' + err);
+      });
+      deployChannel.on('subscribeFail', function (err) {
         console.log('Failed to subscribe to the sample channel due to error: ' + err);
       });
 
@@ -73,6 +83,35 @@ execution log
             socket.emit('go', jsonData);
         }
     }
+
+    deployChannel.watch(function(data){
+      var $ = go.GraphObject.make;
+      var myDiagram =
+        $(go.Diagram, "myDiagramDiv",
+          {
+            initialContentAlignment: go.Spot.Center, // center Diagram contents
+            "undoManager.isEnabled": true, // enable Ctrl-Z to undo and Ctrl-Y to redo
+            layout: $(go.TreeLayout, // specify a Diagram.layout that arranges trees
+                      { angle: 90, layerSpacing: 35 })
+          });
+      // the template we defined earlier
+      myDiagram.nodeTemplate =
+        $(go.Node, "Auto",
+          { background: "rgba(0, 0, 0, 0.05)"},
+          $(go.TextBlock, "Default Text",
+            { margin: 12, stroke: "white", font: "bold 16px sans-serif" },
+            new go.Binding("text", "name"))
+        );
+
+      // define a Link template that routes orthogonally, with no arrowhead
+      myDiagram.linkTemplate =
+        $(go.Link,
+          { routing: go.Link.Orthogonal, corner: 5 },
+          $(go.Shape, { strokeWidth: 3, stroke: "#555" })); // the link shape
+      var model = $(go.TreeModel);
+      model.nodeDataArray = data
+      myDiagram.model = model;
+    })
 
     sampleChannel.watch(function (data) {
 
