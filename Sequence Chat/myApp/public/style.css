@@ -239,3 +239,24 @@ h2 {
     height: 400px;
     text-align: center;
 }
+input[type="file"] {
+    display: none;
+}
+
+.custom-file-upload {
+    border: none;
+    background-color: #e7e7e7;
+    color: black;
+    font-size: 24px;
+    padding: 25px 35px;
+
+    box-shadow: 0 5px #999;
+    border-radius: 5px;
+    display: inline-block;
+}
+
+.custom-file-upload:active {
+    background-color: #999;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+}

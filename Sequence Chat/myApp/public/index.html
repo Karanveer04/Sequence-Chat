@@ -16,7 +16,12 @@
     <h2> Drop Your JSon File here</h2>
   </div>
   <!--<input type="file" id="input">-->
-  <input type="file" class="button" id="input" style="float: left">
+  <!--<input type="file" class="button" id="input" style="float: left; width:5%">-->
+
+  <label for="file-upload" class="custom-file-upload">
+    <i class="fa fa-cloud-upload"></i> Select File
+  </label>
+  <input id="file-upload" type="file"/>
   <!--<input type='button' id='btnLoad' value='Load' onclick="loadFile(); this.style.visibility='hidden'" />-->
   <input type="button" class="button" value="Execute" onclick="loadFile();"  style="float: right;  width: 9.9%;">
 
