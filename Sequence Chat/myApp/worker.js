@@ -86,10 +86,27 @@ class Worker extends SCWorker {
                     var newTree = Array.from(new Set(tree))
                     scServer.exchange.publish('deploy', newTree)
                   }
-                  else if(data.typ == 'class_diagram'){
+                  else if(data.type == 'class_diagram'){
                     //Code for parsing class diagram
                     //publish to the right channel
                     //scServer.exchange.publish('class', data)
+
+                var data = JSON.parse(jsonData);
+
+                data.classes.forEach(function(array){
+                    console.log({
+                            name: array.name,
+                            fields: array.fields
+                        })
+                })
+
+                data.relationships.forEach(function (relation) {
+                        console.log({
+                            type: relation.type,
+                            superclass: relation.superclass,
+                            subclass: relation.subclass
+                        })       
+                })
                   }
 
                 else{
