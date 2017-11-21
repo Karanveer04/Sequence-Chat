@@ -166,7 +166,7 @@ header {
     width: 300px;
     height: 20px;
     vertical-align: top;
-    background-color: white;
+    background-color: #e7e7e7;
     border-color: black;
     border-width: 2px;
     border-style: solid;
@@ -185,8 +185,7 @@ header {
     color: black;
     font-size: 24px;
     padding: 25px 35px;
-    float: right;
-    width: 9.9%;
+
     box-shadow: 0 5px #999;
     border-radius: 5px;
     display: inline-block;

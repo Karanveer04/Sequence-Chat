@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:float="http://www.w3.org/1999/xhtml">
 <head>
   <title>SocketCluster</title>
   <link href="//fonts.googleapis.com/css?family=Roboto:100,300" rel="stylesheet" type="text/css">
@@ -15,9 +15,10 @@
   <div id="drop_zone">
     <h2> Drop Your JSon File here</h2>
   </div>
-  <input type="file" id="input">
-  <input type='button' id='btnLoad' value='Load' onclick="loadFile(); this.style.visibility='hidden'" />
-
+  <!--<input type="file" id="input">-->
+  <input type="file" class="button" id="input" style="float: left">
+  <!--<input type='button' id='btnLoad' value='Load' onclick="loadFile(); this.style.visibility='hidden'" />-->
+  <input type="button" class="button" value="Execute" onclick="loadFile();"  style="float: right;  width: 9.9%;">
 
 
 </div>
@@ -68,7 +69,6 @@ execution log
         }
     }
 
-
     sampleChannel.watch(function (data) {
 
         var fro = data.from;
@@ -83,75 +83,77 @@ execution log
             var executionLog = document.getElementById('execution_log');
             var message = data.message;
 
+            if (channels.includes(user + fro)) {
 
+                    other.innerHTML +=
+                        '<li class="other">' +
+                        '<div class="messages">' +
+                        '<p id="message">' + message + '</p>' +
+                        '<time>' +
+                        fro + ' • ' + datetime +
+                        '</time>' +
+                        '</div>' +
+                        '</li>';
+                }
+                else if (channels.includes(fro + user)) {
+                    self.innerHTML +=
+                        '<li class="self">' +
+                        '<div class="messages">' +
+                        '<p id="message">' + message + '</p>' +
+                        '<time>' +
+                        fro + ' • ' + datetime +
+                        '</time>' +
+                        '</div>' +
+                        '</li>';
+                }
+                else {
+                    div.innerHTML +=
+                        '<div class="three-col-grid">' +
+                        '<div class="grid-item">' +
+                        '<section class="module">' +
+                        '<div class="top-bar">' +
+                        '<div class="left">' +
+                        '<span class="icon typicons-message"></span>' +
+                        '<h1 id="user">' + fro + " and " + user + '</h1>' +
+                        '</div>' +
+                        '</div>' +
+                        '<ol class="discussion" id="' + user + fro + '">' +
+                        '<li class="other">' +
+                        '<div class="messages">' +
+                        '<p id="message">' + message + '</p>' +
+                        '<time id="time">' + fro + ' • ' + datetime + '</time>' +
+                        '</div>' +
+                        '</li>' +
+                        '</ol>' +
+                        '</section>' +
+                        '</div>' +
+                        '</div>';
+                    channels.push(user + fro);
+                }
+            }
 
-            if (channels.includes(user+fro)){
-
-                other.innerHTML +=
-                    '<li class="other">' +
-                    '<div class="messages">' +
-                    '<p id="message">' + message + '</p>' +
-                    '<time>' +
-                    fro + ' • ' + datetime +
-                    '</time>' +
-                    '</div>' +
-                    '</li>';
-            }
-            else if(channels.includes(fro+user)){
-                self.innerHTML +=
-                    '<li class="self">' +
-                    '<div class="messages">' +
-                    '<p id="message">' + message + '</p>' +
-                    '<time>' +
-                    fro + ' • ' + datetime +
-                    '</time>' +
-                    '</div>' +
-                    '</li>';
-            }
-            else{
-               div.innerHTML +=
-                    '<div class="three-col-grid">' +
-                    '<div class="grid-item">' +
-                    '<section class="module">' +
-                    '<div class="top-bar">' +
-                    '<div class="left">' +
-                    '<span class="icon typicons-message"></span>' +
-                    '<h1 id="user">' + fro + " and " + user + '</h1>' +
-                    '</div>' +
-                    '</div>' +
-                    '<ol class="discussion" id="'+user+fro+'">' +
-                    '<li class="other">' +
-                    '<div class="messages">' +
-                    '<p id="message">' + message + '</p>' +
-                    '<time id="time">' + fro + ' • ' + datetime + '</time>' +
-                    '</div>' +
-                    '</li>' +
-                    '</ol>' +
-                    '</section>' +
-                    '</div>' +
-                    '</div>';
-                channels.push(user+fro);
-            }
             //document.getElementById('user').innerHTML = data.from;
             //document.getElementById('message').innerHTML +=  data.message[2];
             console.log('RANDOM STREAM: ' + data.from + data.to + data.message);
             executionLog.innerHTML+= '' + data.from + '' + data.to+ '' + data.message;
-
-            var box = document.getElementById("execution_log");
-            function expandBox(){
-                if(box.getAttribute("expanded")=="false"){
-                    box.setAttribute("expanded","true");
-                    box.style.height="250px";
-                    box.style.display="block";
-                }else{
-                    box.setAttribute("expanded","false");
-                    box.style.height="20px";
-
-                }
-            }
-            document.getElementById("execution_log").onclick = expandBox;
-        }
     });
+
+
+
+
+    var box = document.getElementById("execution_log");
+    function expandBox(){
+        if(box.getAttribute("expanded")=="false"){
+            box.setAttribute("expanded","true");
+            box.style.height="250px";
+            box.style.display="block";
+        }else{
+            box.setAttribute("expanded","false");
+            box.style.height="20px";
+
+        }
+    }
+    document.getElementById("execution_log").onclick = expandBox;
 </script>
 </body>
 </html>
