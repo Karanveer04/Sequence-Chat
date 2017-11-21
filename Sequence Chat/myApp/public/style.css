@@ -260,3 +260,5 @@ input[type="file"] {
     box-shadow: 0 5px #666;
     transform: translateY(4px);
 }
+
+.animate{animation:opac 0.8s}@keyframes opac{from{opacity:0} to{opacity:1}}

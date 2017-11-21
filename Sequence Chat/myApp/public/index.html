@@ -63,7 +63,7 @@ execution log
             alert("The file API isn't supported on this browser yet.");
             return;
         }
-        var file = document.getElementById('input').files[0];
+        var file = document.getElementById('file-upload').files[0];
         fr = new FileReader();
         fr.onload = receivedText;
         fr.readAsText(file);
@@ -92,7 +92,7 @@ execution log
 
                     other.innerHTML +=
                         '<li class="other">' +
-                        '<div class="messages">' +
+                        '<div class="messages animate">' +
                         '<p id="message">' + message + '</p>' +
                         '<time>' +
                         fro + ' • ' + datetime +
@@ -103,7 +103,7 @@ execution log
                 else if (channels.includes(fro + user)) {
                     self.innerHTML +=
                         '<li class="self">' +
-                        '<div class="messages">' +
+                        '<div class="messages animate">' +
                         '<p id="message">' + message + '</p>' +
                         '<time>' +
                         fro + ' • ' + datetime +
@@ -124,8 +124,8 @@ execution log
                         '</div>' +
                         '<ol class="discussion" id="' + user + fro + '">' +
                         '<li class="other">' +
-                        '<div class="messages">' +
-                        '<p id="message">' + message + '</p>' +
+                        '<div class="messages animate">' +
+                        '<p id="message ">' + message + '</p>' +
                         '<time id="time">' + fro + ' • ' + datetime + '</time>' +
                         '</div>' +
                         '</li>' +
