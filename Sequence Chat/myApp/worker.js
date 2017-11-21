@@ -46,12 +46,14 @@ class Worker extends SCWorker {
                 var data = JSON.parse(jsonData);
                 data.diagram.content.forEach(function (array) {
                     array.content.forEach(function (x) {
+                      setTimeout(function() {
                         scServer.exchange.publish('sample', {
                             from: x.from,
                             to: x.to,
                             message: x.message
                         })
-                        //sleep(1000)
+                      }, Math.random() * (9000));
+                      //  sleep(1000)
                     })
                 })
 
