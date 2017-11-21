@@ -92,8 +92,8 @@ execution log
 
                     other.innerHTML +=
                         '<li class="other">' +
-                        '<div class="messages animate">' +
-                        '<p id="message">' + message + '</p>' +
+                        '<div class="messages">' +
+                        '<p id="message" class="animate">' + message + '</p>' +
                         '<time>' +
                         fro + ' • ' + datetime +
                         '</time>' +
@@ -103,8 +103,8 @@ execution log
                 else if (channels.includes(fro + user)) {
                     self.innerHTML +=
                         '<li class="self">' +
-                        '<div class="messages animate">' +
-                        '<p id="message">' + message + '</p>' +
+                        '<div class="messages">' +
+                        '<p id="message" class="animate">' + message + '</p>' +
                         '<time>' +
                         fro + ' • ' + datetime +
                         '</time>' +
@@ -124,8 +124,8 @@ execution log
                         '</div>' +
                         '<ol class="discussion" id="' + user + fro + '">' +
                         '<li class="other">' +
-                        '<div class="messages animate">' +
-                        '<p id="message ">' + message + '</p>' +
+                        '<div class="messages">' +
+                        '<p id="message " class="animate">' + message + '</p>' +
                         '<time id="time">' + fro + ' • ' + datetime + '</time>' +
                         '</div>' +
                         '</li>' +

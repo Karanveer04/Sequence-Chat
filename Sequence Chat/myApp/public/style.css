@@ -261,4 +261,4 @@ input[type="file"] {
     transform: translateY(4px);
 }
 
-.animate{animation:opac 0.8s}@keyframes opac{from{opacity:0} to{opacity:1}}
+.animate{animation:opac 0.99s}@keyframes opac{from{background-color:red} to{background-color:white}}
