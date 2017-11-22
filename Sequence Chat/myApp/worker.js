@@ -5,6 +5,7 @@ var serveStatic = require('serve-static');
 var path = require('path');
 var morgan = require('morgan');
 var healthChecker = require('sc-framework-health-check');
+var _ = require('lodash');
 
 
 var jsonData;
@@ -57,11 +58,6 @@ class Worker extends SCWorker {
                   })
                 }
                 else if(data.type == 'deployment_diagram'){
-                  //data.mapping.forEach(function (array){
-                    //scServer.exchange.publish('deploy', {
-                      //process: array.process,
-                      //device: array.device
-                    //})
                     var tree = []
                     data.mapping.forEach(function(x){
                       if(x.device == 'server'){
@@ -83,30 +79,13 @@ class Worker extends SCWorker {
                         })
                       }
                     })
-                    var newTree = Array.from(new Set(tree))
+                    var newTree = _.uniqBy(tree, 'name')
                     scServer.exchange.publish('deploy', newTree)
                   }
-                  else if(data.type == 'class_diagram'){
+                  else if(data.typ == 'class_diagram'){
                     //Code for parsing class diagram
                     //publish to the right channel
                     //scServer.exchange.publish('class', data)
-
-                var data = JSON.parse(jsonData);
-
-                data.classes.forEach(function(array){
-                    console.log({
-                            name: array.name,
-                            fields: array.fields
-                        })
-                })
-
-                data.relationships.forEach(function (relation) {
-                        console.log({
-                            type: relation.type,
-                            superclass: relation.superclass,
-                            subclass: relation.subclass
-                        })       
-                })
                   }
 
                 else{
