@@ -176,7 +176,15 @@ header {
 
 }
 
+#classDiagramDiv {
+    position: absolute;
+    left: 10%
+}
 
+#deployDiagramDiv {
+    position: absolute;
+    right: 10%
+}
 
 
 .button {
@@ -238,6 +246,7 @@ h2 {
     align-items: center;
     height: 400px;
     text-align: center;
+    position: inherit;
 }
 input[type="file"] {
     display: none;

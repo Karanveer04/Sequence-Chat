@@ -82,14 +82,38 @@ class Worker extends SCWorker {
                     var newTree = _.uniqBy(tree, 'name')
                     scServer.exchange.publish('deploy', newTree)
                   }
-                  else if(data.typ == 'class_diagram'){
+                  else if(data.type == 'class_diagram'){
                     //Code for parsing class diagram
                     //publish to the right channel
                     //scServer.exchange.publish('class', data)
+
+                  var nodeData  = []        
+                  var linkData = []  
+                  var classData = []       
+                 data.classes.forEach(function(array){
+                         nodeData.push({
+                            key:array.name,
+                            name:array.name,
+                            properties:array.fields,
+                            methods:array.methods
+                         })
+                     
+                 })
+ 
+                 data.relationships.forEach(function (relation) {
+                           linkData.push({
+                            from:relation.subclass,
+                            to:relation.superclass,
+                            relationship: relation.type
+                           })    
+                 })
+                  classData.push(nodeData)
+                  classData.push(linkData)
+                  scServer.exchange.publish('class' , classData)
                   }
 
                 else{
-                  console.log('WRONG')
+                  console.log('Wrong diagram')
                 }
 
             })
