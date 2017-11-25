@@ -176,6 +176,30 @@ header {
 
 }
 
+#customers {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#customers td, #customers th {
+    border: 1px solid #ddd;
+    padding: 8px;
+     text-align: left;
+}
+
+#customers tr:nth-child(even){background-color: #f2f2f2;}
+
+#customers tr:hover {background-color: red;}
+
+#customers th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: center;
+    background-color: blue;
+    color: white;
+}
+
 #classDiagramDiv {
     position: absolute;
     left: 10%
@@ -251,6 +275,9 @@ h2 {
 input[type="file"] {
     display: none;
 }
+
+
+
 
 .custom-file-upload {
     border: none;

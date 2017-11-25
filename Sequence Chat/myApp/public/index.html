@@ -43,8 +43,11 @@
 </div>
 
 <div class="execution_log" id='execution_log'>
-execution log
-
+  <table id="customers">
+    <tr>
+      <th>Execution Log </th>
+    </tr>
+  </table>
 </div>
 
 <script type="text/javascript">
@@ -157,7 +160,7 @@ execution log
           { isMultiline: false, editable: false },
           new go.Binding("text", "default", function(s) { return s ? " = " + s : ""; }))
       );
-    
+
     // the item template for methods
       var methodTemplate =
       $(go.Panel, "Horizontal",
@@ -282,7 +285,7 @@ execution log
           new go.Binding("fromArrow", "relationship", convertFromArrow)),
         $(go.Shape, { scale: 1.3, fill: "white" },
           new go.Binding("toArrow", "relationship", convertToArrow))
-       
+
       );
 
       myDiagram.model = $(go.GraphLinksModel,
@@ -361,10 +364,23 @@ execution log
             //document.getElementById('user').innerHTML = data.from;
             //document.getElementById('message').innerHTML +=  data.message[2];
             console.log('RANDOM STREAM: ' + data.from + data.to + data.message);
-            executionLog.innerHTML+= '' + data.from + '' + data.to+ '' + data.message;
+
+        //    executionLog.innerHTML+= '' + data.from + '' + data.to+ '' + data.message;
+            executionLog.innerHTML+=
+            '<table id="customers">'+
+            '<tr>'+
+              '<th>From</th>'+
+              '<th>To</th>'+
+              '<th>Message</th>'+
+            '</tr>'+
+
+  '<tr>'+
+'<td>'+ data.from +'</td>'+
+    '<td>'+ data.to +'</td>'+
+    '<td>'+ data.message +'</td>'+
+  '</tr>'+
+  '</table>';
     });
-
-
 
 
     var box = document.getElementById("execution_log");
@@ -379,6 +395,7 @@ execution log
 
         }
     }
+
     document.getElementById("execution_log").onclick = expandBox;
 </script>
 </body>
