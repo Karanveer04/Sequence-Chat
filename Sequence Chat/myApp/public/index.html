@@ -293,7 +293,17 @@
           new go.Binding("toArrow", "relationship", convertToArrow))
 
       );
+            var executionLog = document.getElementById('bo');
+                  str2=  data[0][Object.keys(data[key])[0]];
+      executionLog.innerHTML+=
+      '<table id="customers">'+
+      '<tr>'+
+      '<td>'+ str2 +'</td>'+
+        '</tr>'+
+        '</table>';
+        str = JSON.stringify(data[0], null , 4);
 
+        console.log(str2);
       myDiagram.model = $(go.GraphLinksModel,
       {
         copiesArrays: true,
