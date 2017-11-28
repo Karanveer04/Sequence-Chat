@@ -42,7 +42,12 @@
 <div class="l-wrap" id="wrap">
 </div>
 
-<div class="execution_log" id='execution_log'>
+
+<div class="min-open">Open Execution log</div>
+
+
+<div class="bo"  id='bo'>
+  <div class="min-close">X</div>
   <table id="customers">
     <tr>
       <th>Execution Log </th>
@@ -123,6 +128,7 @@
       var model = $(go.TreeModel);
       model.nodeDataArray = data
       myDiagram.model = model;
+
     })
 
     classChannel.watch(function (data){
@@ -309,7 +315,7 @@
             var div = document.getElementById('wrap');
             var self = document.getElementById(fro+user);
             var other = document.getElementById(user+fro);
-            var executionLog = document.getElementById('execution_log');
+            var executionLog = document.getElementById('bo');
             var message = data.message;
 
             if (channels.includes(user + fro)) {
@@ -373,7 +379,6 @@
               '<th>To</th>'+
               '<th>Message</th>'+
             '</tr>'+
-
   '<tr>'+
 '<td>'+ data.from +'</td>'+
     '<td>'+ data.to +'</td>'+
@@ -383,20 +388,29 @@
     });
 
 
-    var box = document.getElementById("execution_log");
-    function expandBox(){
-        if(box.getAttribute("expanded")=="false"){
-            box.setAttribute("expanded","true");
-            box.style.height="250px";
-            box.style.display="block";
-        }else{
-            box.setAttribute("expanded","false");
-            box.style.height="20px";
+    $(function () {
 
+            $(".bo").hide();
+            $(".min-open").show();
+
+      $(".min-open").on("click", function () {
+          $(".bo").show(100);
+          if ($(this).attr("class") == "min-open")
+          {
+            $(".min-open").hide();
+          }
+        });
+
+      $(".min-close").on("click", function () {
+        $(".bo").hide(100);
+
+        if ($(this).attr("class") == "min-close")
+        {
+          $(".min-open").show();
         }
-    }
+      });
+    });
 
-    document.getElementById("execution_log").onclick = expandBox;
 </script>
 </body>
 </html>
