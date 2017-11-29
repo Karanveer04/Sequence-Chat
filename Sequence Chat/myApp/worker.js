@@ -38,25 +38,56 @@ class Worker extends SCWorker {
           In here we handle our incoming realtime connections and listen for events.
         */
         scServer.on('connection', function (socket) {
-            // Some sample logic to show how to handle client events,
-            // replace this with your own logic
-
             socket.on('go', function (jsonData) {
                 //Read the JSON input
-                //Loop throw the conent of the JSON and send it to frontend
+                //Loop through the content of the JSON and send it to frontend
+                var arr = [];
+                //var arr2 = [];
+                //var tog = [];
                 var data = JSON.parse(jsonData);
-                if(data.type == 'sequence_diagram'){
-                  data.diagram.content.forEach(function (array) {
-                      array.content.forEach(function (x) {
-                          scServer.exchange.publish('sample', {
-                              from: x.from,
-                              to: x.to,
-                              message: x.message
-                          })//Math.random() * (9000));
-                          //sleep(1000)
-                      })
-                  })
-                }
+
+                if (data.type === 'sequence_diagram') {
+                    data.diagram.content.forEach(function (array) {
+                        array.content.forEach(function (x) {
+                            arr.push({
+                                from: x.from,
+                                to: x.to,
+                                message: x.message
+                            });
+                        });
+                    });
+
+                    //working on the parallel diagrams
+                    /*if (data.diagram.node !== 'par') {
+                        data.diagram.content.content.forEach(function (x) {
+                            arr.push({
+                                from: x.from,
+                                to: x.to,
+                                message: x.message
+                            });
+                        });
+                        scServer.exchange.publish('sample', arr);
+                    }
+                    else {
+                        data.diagram.content.forEach(function (array) {
+                            arr2.push(array);
+                        });
+                        arr2[0].forEach(function (x) {
+                            arr2[1].forEach(function (xo) {
+                                arr.push({
+                                    from: x.from,
+                                    to: x.to,
+                                    message: x.message,
+                                    fromPar: xo.from,
+                                    toPar: xo.to,
+                                    messagePar: xo.message
+                                });
+                            });
+                        });
+                        */
+                        scServer.exchange.publish('sample', arr);
+                    }
+
                 else if(data.type == 'deployment_diagram'){
                     var tree = []
                     data.mapping.forEach(function(x){
@@ -87,9 +118,9 @@ class Worker extends SCWorker {
                     //publish to the right channel
                     //scServer.exchange.publish('class', data)
 
-                  var nodeData  = []        
-                  var linkData = []  
-                  var classData = []       
+                  var nodeData  = [];
+                  var linkData = [];
+                  var classData = [];
                  data.classes.forEach(function(array){
                          nodeData.push({
                             key:array.name,
@@ -98,15 +129,15 @@ class Worker extends SCWorker {
                             methods:array.methods
                          })
                      
-                 })
+                 };
  
                  data.relationships.forEach(function (relation) {
                            linkData.push({
                             from:relation.subclass,
                             to:relation.superclass,
                             relationship: relation.type
-                           })    
-                 })
+                           });
+                 });
                   classData.push(nodeData)
                   classData.push(linkData)
                   scServer.exchange.publish('class' , classData)
@@ -116,7 +147,7 @@ class Worker extends SCWorker {
                   console.log('Wrong diagram')
                 }
 
-            })
+            });
 
             var interval = setInterval(function () {
                 socket.emit('rand', {

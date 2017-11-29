@@ -8,6 +8,8 @@
   <script type="text/javascript" src="/socketcluster.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gojs/1.8.2/go.js"></script>
+  <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 </head>
 <body>
 <header>
@@ -304,20 +306,23 @@
     })
 
     sampleChannel.watch(function (data) {
-
-        var fro = data.from;
-        var user = data.to;
-        if (user !== undefined) {
-            var currentdate = new Date();
-            var datetime = currentdate.getMinutes() + ":"
-                + currentdate.getSeconds();
-            var div = document.getElementById('wrap');
-            var self = document.getElementById(fro+user);
-            var other = document.getElementById(user+fro);
-            var executionLog = document.getElementById('bo');
-            var message = data.message;
-
-            if (channels.includes(user + fro)) {
+        var i = 0;
+        function animate() {
+            var fro = data[i].from;
+            var user = data[i].to;
+            //var froPar = data[i].fromPar;
+            //var userPar = data[i].userPar;
+            //var messagePar = data[i].messagePar;
+            if (user !== undefined) {
+                var currentdate = new Date();
+                var datetime = currentdate.getMinutes() + ":"
+                    + currentdate.getSeconds();
+                var div = document.getElementById('wrap');
+                var self = document.getElementById(fro+user);
+                var other = document.getElementById(user+fro);
+                var executionLog = document.getElementById('bo');
+                var message = data[i].message;
+                if (channels.includes(user + fro)) {
 
                     other.innerHTML +=
                         '<li class="other">' +
@@ -364,26 +369,32 @@
                         '</div>';
                     channels.push(user + fro);
                 }
+
             }
+            //$(document).ready(function() {
+            //    $('div.messages').effect("highlight", {}, 2000);
+            //});
 
-            //document.getElementById('user').innerHTML = data.from;
-            //document.getElementById('message').innerHTML +=  data.message[2];
-            console.log('RANDOM STREAM: ' + data.from + data.to + data.message);
-
-        //    executionLog.innerHTML+= '' + data.from + '' + data.to+ '' + data.message;
+            console.log('RANDOM STREAM: ' + data[i].from + data[i].to + data[i].message);
             executionLog.innerHTML+=
-            '<table id="customers">'+
-            '<tr>'+
-              '<th>From</th>'+
-              '<th>To</th>'+
-              '<th>Message</th>'+
-            '</tr>'+
-  '<tr>'+
-'<td>'+ data.from +'</td>'+
-    '<td>'+ data.to +'</td>'+
-    '<td>'+ data.message +'</td>'+
-  '</tr>'+
-  '</table>';
+                '<table id="customers">'+
+                '<tr>'+
+                '<th>From</th>'+
+                '<th>To</th>'+
+                '<th>Message</th>'+
+                '</tr>'+
+                '<tr>'+
+                '<td>'+ data[i].from +'</td>'+
+                '<td>'+ data[i].to +'</td>'+
+                '<td>'+ data[i].message +'</td>'+
+                '</tr>'+
+                '</table>';
+            i+=1;
+            if(i !== data.length) {
+                setTimeout(animate, 2000);
+            }
+        }
+        animate();
     });
 
 
