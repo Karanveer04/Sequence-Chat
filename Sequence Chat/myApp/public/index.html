@@ -45,9 +45,9 @@
 
 <div class="min-open">Open Execution log</div>
 
-
-<div class="bo"  id='bo'>
   <div class="min-close">X</div>
+<div class="bo"  id='bo'>
+
   <table id="customers">
     <tr>
       <th>Execution Log </th>
@@ -402,12 +402,14 @@
 
             $(".bo").hide();
             $(".min-open").show();
+            $(".min-close").hide();
 
       $(".min-open").on("click", function () {
           $(".bo").show(100);
           if ($(this).attr("class") == "min-open")
           {
             $(".min-open").hide();
+            $(".min-close").show();
           }
         });
 
@@ -417,6 +419,7 @@
         if ($(this).attr("class") == "min-close")
         {
           $(".min-open").show();
+          $(".min-close").hide();
         }
       });
     });

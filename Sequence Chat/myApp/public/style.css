@@ -254,6 +254,9 @@ header {
   text-align: center;
   padding: 3px;
   border-radius: 3px;
+  position:fixed;
+  right:2px;
+  bottom:330px;
 }
 
 .bo {
