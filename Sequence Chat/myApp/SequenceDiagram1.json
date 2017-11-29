@@ -1,0 +1,112 @@
+{
+
+	"type"	:	"sequence_diagram",
+	"processes"	:	[
+		{
+			"class"	:	"User",
+			"name"	:	"Filip"
+		},
+		{
+			"class"	:	"User",
+			"name"	:	"Karan"
+		},
+		{
+			"class"	:	"User",
+			"name"	:	"Margit"
+		},
+		{
+			"class"	:	"User",
+			"name"	:	"Andrius"
+		},
+		{
+			"class"	:	"User",
+			"name"	:	"Simon"
+		},
+		{
+			"class"	:	"User",
+			"name"	:	"Per"
+		}
+	],
+	"diagram"	:	{
+		"node"	:	"par",
+		"content"	:	[
+			{
+				"node"	:	"seq",
+				"content"	:	[
+					{
+						"node"	:	"send",
+						"from"	:	"Filip",
+						"to"	:	"Karan",
+						"message"	:	["Hello!"]
+					},
+					{
+						"node"	:	"send",
+						"from"	:	"Karan",
+						"to"	:	"Filip",
+						"message"	:	["Margit is a genius."]
+					},
+					{
+						"node"	:	"send",
+						"from"	:	"Filip",
+						"to"	:	"Margit",
+						"message"	:	["Karan hates you."]
+					},
+					{
+						"node"	:	"send",
+						"from"	:	"Filip",
+						"to"	:   "Andrius",
+						"message"	:	["I'm the real ScrumMaster."]
+					},
+					{
+						"node"	:	"send",
+						"from"	:	"Margit",
+						"to"	:	"Filip",
+						"message"	:	["What? Why? :("]
+					},
+
+					{
+						"node"	:	"send",
+						"from"	:	"Andrius",
+						"to"	:	"Filip",
+						"message"	:	["Interesting."]
+					},
+					{
+						"node"	:	"send",
+						"from"	:	"Andrius",
+						"to"	:	"Simon",
+						"message"	:	["Filip is the real ScrumMaster."]
+					},
+					{
+						"node"	:	"send",
+						"from"	:	"Simon",
+						"to"	:	"Andrius",
+						"message"	:	["What? You Sure?"]
+					},
+					{
+						"node"	:	"send",
+						"from"	:	"Simon",
+						"to"	:	"Per",
+						"message"	:	["Jiu Jitsu Man!"]
+					},
+					{
+						"node"	:	"send",
+						"from"	:	"Per",
+						"to"	:	"Simon",
+						"message"	:	["You are so lazy!"]
+					},
+					{
+						"node"	:	"send",
+						"from"	:	"Per",
+						"to"	:	"Karan",
+						"message"	:	["Don't be late!"]
+					},
+					{
+						"node"	:	"send",
+						"from"	:	"Karan",
+						"to"	:	"Filip",
+						"message"	:	["Just kidding!"]
+					}]
+			}
+		]
+	}
+}
