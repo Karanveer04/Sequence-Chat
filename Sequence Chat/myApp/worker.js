@@ -129,7 +129,7 @@ class Worker extends SCWorker {
                             methods:array.methods
                          })
                      
-                 };
+                 });
  
                  data.relationships.forEach(function (relation) {
                            linkData.push({
