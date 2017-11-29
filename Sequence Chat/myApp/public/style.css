@@ -342,4 +342,3 @@ input[type="file"] {
     transform: translateY(4px);
 }
 
-.animate{animation:opac 0.99s}@keyframes opac{from{background-color:red} to{background-color:white}}

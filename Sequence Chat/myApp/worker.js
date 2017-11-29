@@ -1,3 +1,4 @@
+/* jshint node: true */
 var SCWorker = require('socketcluster/scworker');
 var fs = require('fs');
 var express = require('express');
@@ -20,7 +21,7 @@ class Worker extends SCWorker {
         var httpServer = this.httpServer;
         var scServer = this.scServer;
 //testets
-        if (environment == 'dev') {
+        if (environment === 'dev') {
             // Log every HTTP request. See https://github.com/expressjs/morgan for other
             // available formats.
             app.use(morgan('dev'));
@@ -85,66 +86,66 @@ class Worker extends SCWorker {
                             });
                         });
                         */
-                        scServer.exchange.publish('sample', arr);
-                    }
+                    scServer.exchange.publish('sample', arr);
+                }
 
-                else if(data.type == 'deployment_diagram'){
-                    var tree = []
+                else if(data.type === 'deployment_diagram'){
+                    var tree = [];
                     data.mapping.forEach(function(x){
-                      if(x.device == 'server'){
-                        tree.push({
-                          key: x.process,
-                          name: x.process
-                        })
-                      }
-                      else{
-                        tree.push({
-                          key: x.device,
-                          name: x.device,
-                          parent: 'g'
-                        })
-                        tree.push({
-                          key: x.process,
-                          name: x.process,
-                          parent: x.device
-                        })
-                      }
-                    })
-                    var newTree = _.uniqBy(tree, 'name')
-                    scServer.exchange.publish('deploy', newTree)
-                  }
-                  else if(data.type == 'class_diagram'){
+                        if(x.device === 'server'){
+                            tree.push({
+                                key: x.process,
+                                name: x.process
+                            });
+                        }
+                        else{
+                            tree.push({
+                                key: x.device,
+                                name: x.device,
+                                parent: 'g'
+                            });
+                            tree.push({
+                                key: x.process,
+                                name: x.process,
+                                parent: x.device
+                            });
+                        }
+                    });
+                    var newTree = _.uniqBy(tree, 'name');
+                    scServer.exchange.publish('deploy', newTree);
+                }
+                else if(data.type === 'class_diagram'){
                     //Code for parsing class diagram
                     //publish to the right channel
                     //scServer.exchange.publish('class', data)
 
-                  var nodeData  = [];
-                  var linkData = [];
-                  var classData = [];
-                 data.classes.forEach(function(array){
-                         nodeData.push({
+                    var nodeData  = [];
+                    var linkData = [];
+                    var classData = [];
+                    data.classes.forEach(function(array){
+                        nodeData.push({
                             key:array.name,
                             name:array.name,
                             properties:array.fields,
                             methods:array.methods
-                         })
-                     
-                 });
- 
-                 data.relationships.forEach(function (relation) {
-                           linkData.push({
+                        });
+
+                    });
+
+                    data.relationships.forEach(function (relation) {
+                        linkData.push({
                             from:relation.subclass,
                             to:relation.superclass,
                             relationship: relation.type
-                           });
-                 });
-                  classData.push(nodeData)
-                  classData.push(linkData)
-                  scServer.exchange.publish('class' , classData)
-                  }
+                        });
+                    });
+                    classData.push(nodeData);
+                    classData.push(linkData);
+                    scServer.exchange.publish('class' , classData);
+                }
 
                 else{
-                  console.log('Wrong diagram')
+                    console.log('Wrong diagram');
                 }
 
             });

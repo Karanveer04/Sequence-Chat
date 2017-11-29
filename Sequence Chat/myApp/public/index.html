@@ -131,7 +131,7 @@
       model.nodeDataArray = data
       myDiagram.model = model;
 
-    })
+    });
 
     classChannel.watch(function (data){
       var $ = go.GraphObject.make;
@@ -303,7 +303,7 @@
         linkDataArray: data[1]
       });
 
-    })
+    });
 
     sampleChannel.watch(function (data) {
         var i = 0;
@@ -391,7 +391,7 @@
                 '</table>';
             i+=1;
             if(i !== data.length) {
-                setTimeout(animate, 2000);
+                setTimeout(animate, 1500);
             }
         }
         animate();
