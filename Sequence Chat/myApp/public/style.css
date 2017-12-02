@@ -14,7 +14,7 @@ body{
 
 header {
     background-color: #6A5ACD;
-    border-bottom: 2px solid #27408b;   /*#466995;*/
+    border-bottom: 1px solid #455c63;   /*#466995; 61798a; 6A5ACD*/
     position: absolute;
     width: 100%;
     text-align: center;
@@ -29,19 +29,13 @@ header {
     padding: 0.5rem;
     position: relative;
     overflow: hidden;
+
 }
 .top-bar h1 {
     display: inline;
     font-size: 1.1rem;
 }
-/*.top-bar .typicons-message {
-  display: inline-block;
-  padding: 4px 5px 2px 5px;
-}
-.top-bar .typicons-minus {
-  position: relative;
-  top: 3px;
-}*/
+
 .top-bar .left {
     float: left;
 }
@@ -167,9 +161,7 @@ header {
     height: 20px;
     vertical-align: top;
     background-color: #e7e7e7;
-    border-color: black;
-    border-width: 2px;
-    border-style: solid;
+    border: 2px solid black;
     overflow-y: auto;
     overflow-x: hidden;
 
@@ -182,21 +174,21 @@ header {
     width: 100%;
 }
 
-#customers td, #customers th {
+#customers td {
     border: 1px solid #ddd;
     padding: 8px;
-     text-align: left;
+    text-align: left;
 }
 
 #customers tr:nth-child(even){background-color: #f2f2f2;}
 
-#customers tr:hover {background-color: red;}
+#customers tr:hover {background-color: #e0eb75;}
 
 #customers th {
-    padding-top: 12px;
-    padding-bottom: 12px;
+    padding: 4px;
+    border: 1px solid #ddd;
     text-align: center;
-    background-color: blue;
+    background-color: #6A5ACD;
     color: white;
 }
 
@@ -230,7 +222,7 @@ header {
 }
 
 .min-open {
-	background-color:#00A8EA;
+    background-color:#6A5ACD;    /*#887d6c*/
   color: #fff;
   border: solid 1px #0095cc;
   border-radius: 10px;
@@ -248,7 +240,7 @@ header {
 	cursor:pointer;
   width: 20px;
   height: 20px;
-  background-color: #00A8EA;
+  background-color: #6A5ACD;
   color: #fff;
   border: solid 1px #0095cc;
   text-align: center;
@@ -320,9 +312,6 @@ h2 {
 input[type="file"] {
     display: none;
 }
-
-
-
 
 .custom-file-upload {
     border: none;

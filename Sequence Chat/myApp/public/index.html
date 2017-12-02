@@ -48,12 +48,16 @@
 <div class="min-open">Open Execution log</div>
 
   <div class="min-close">X</div>
-<div class="bo"  id='bo'>
 
+<div class="bo"  id='bo'>
   <table id="customers">
+    <thead>
     <tr>
-      <th>Execution Log </th>
+      <th colspan="3" id="h3">Execution Log </th>
     </tr>
+    </thead>
+    <tbody id="tab">
+    </tbody>
   </table>
 </div>
 
@@ -320,13 +324,13 @@
                 var div = document.getElementById('wrap');
                 var self = document.getElementById(fro+user);
                 var other = document.getElementById(user+fro);
-                var executionLog = document.getElementById('bo');
+                var executionLog = document.getElementById('tab');
                 var message = data[i].message;
                 if (channels.includes(user + fro)) {
 
                     other.innerHTML +=
                         '<li class="other">' +
-                        '<div class="messages">' +
+                        '<div class="messages" id="box'+ i +'">' +
                         '<p id="message" class="animate">' + message + '</p>' +
                         '<time>' +
                         fro + ' • ' + datetime +
@@ -337,7 +341,7 @@
                 else if (channels.includes(fro + user)) {
                     self.innerHTML +=
                         '<li class="self">' +
-                        '<div class="messages">' +
+                        '<div class="messages" id="box'+ i +'">' +
                         '<p id="message" class="animate">' + message + '</p>' +
                         '<time>' +
                         fro + ' • ' + datetime +
@@ -358,8 +362,8 @@
                         '</div>' +
                         '<ol class="discussion" id="' + user + fro + '">' +
                         '<li class="other">' +
-                        '<div class="messages">' +
-                        '<p id="message " class="animate">' + message + '</p>' +
+                        '<div class="messages" id="box'+ i +'">' +
+                        '<p id="message" class="animate">' + message + '</p>' +
                         '<time id="time">' + fro + ' • ' + datetime + '</time>' +
                         '</div>' +
                         '</li>' +
@@ -371,24 +375,22 @@
                 }
 
             }
-            //$(document).ready(function() {
-            //    $('div.messages').effect("highlight", {}, 2000);
-            //});
+            $(document).ready(function() {
+                $("#box"+i).effect("highlight", {color:"#e0eb75"}, 1500);
+            });
 
             console.log('RANDOM STREAM: ' + data[i].from + data[i].to + data[i].message);
             executionLog.innerHTML+=
-                '<table id="customers">'+
                 '<tr>'+
                 '<th>From</th>'+
                 '<th>To</th>'+
                 '<th>Message</th>'+
                 '</tr>'+
-                '<tr>'+
+                '<tr id='+i+' >'+ //risky business with the numbers
                 '<td>'+ data[i].from +'</td>'+
                 '<td>'+ data[i].to +'</td>'+
                 '<td>'+ data[i].message +'</td>'+
-                '</tr>'+
-                '</table>';
+                '</tr>';
             i+=1;
             if(i !== data.length) {
                 setTimeout(animate, 1500);
@@ -397,6 +399,13 @@
         animate();
     });
 
+    $(document).ready(function() {
+        $(document).on("click", "#customers tbody td", function() {
+            console.log('RANDOM STREAM: '+ $(this).closest('tr').attr('id'));
+            var nr = $(this).closest('tr').attr('id');
+            $("#box" + nr).effect("highlight", {color: "#C2C005"}, 1500);
+        });
+    });
 
     $(function () {
 
