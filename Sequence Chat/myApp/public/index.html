@@ -108,7 +108,7 @@
     }
 
     deployChannel.watch(function(data){
-      var $ = go.GraphObject.make;
+            var $ = go.GraphObject.make;
       var myDiagram =
         $(go.Diagram, "deployDiagramDiv",
           {
@@ -119,8 +119,13 @@
           });
       // the template we defined earlier
       myDiagram.nodeTemplate =
-        $(go.Node, "Auto",
+        $(go.Node, "Horizontal",
           { background: "rgba(0, 0, 0, 0.05)"},
+          $(go.Picture, 
+
+      { margin: 10, width:50, height:50},
+      // Picture.source is data bound to the "source" attribute of the model data
+      new go.Binding("source")),
           $(go.TextBlock, "Default Text",
             { margin: 12, stroke: "white", font: "bold 16px sans-serif" },
             new go.Binding("text", "name"))

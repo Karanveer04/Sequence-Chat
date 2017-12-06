@@ -90,29 +90,48 @@ class Worker extends SCWorker {
                 }
 
                 else if(data.type === 'deployment_diagram'){
-                    var tree = [];
+                    var tree = []
+                    var count = 0
+                    var phone = 'smartphone'
+                    var comp = 'computer'
+                    var serv = 'server'
+                    var parent
                     data.mapping.forEach(function(x){
-                        if(x.device === 'server'){
-                            tree.push({
-                                key: x.process,
-                                name: x.process
-                            });
-                        }
-                        else{
-                            tree.push({
-                                key: x.device,
-                                name: x.device,
-                                parent: 'g'
-                            });
-                            tree.push({
-                                key: x.process,
-                                name: x.process,
-                                parent: x.device
-                            });
-                        }
-                    });
-                    var newTree = _.uniqBy(tree, 'name');
-                    scServer.exchange.publish('deploy', newTree);
+                      if(count == 0){
+                        tree.push({
+                          key: x.process,
+                          name: x.process,
+                          source: (x.device.indexOf(serv) !== -1) ? "server.png" :
+                           ""
+                        })
+                        count++
+                        parent = x.process
+                      }
+                      else{
+                        var path
+                          if(x.device.indexOf(phone) !== -1){
+                            path = "/public/img/smartphone.png"
+                          }else if(x.device.indexOf(comp) !== -1){
+                            path = "/public/img/computer.png"
+                          }else{
+                            path = ""
+                          }
+                        tree.push({
+                          key: x.device,
+                          name: x.device,
+                          parent: parent,
+                          source: path 
+                        })
+                        tree.push({
+                          key: x.process,
+                          name: x.process,
+                          parent: x.device,
+                          source: "/public/img/user.png"
+                        })
+                      }
+                    })
+                    var newTree = _.uniqBy(tree, 'name')
+                    scServer.exchange.publish('deploy', newTree)
                 }
                 else if(data.type === 'class_diagram'){
                     //Code for parsing class diagram
