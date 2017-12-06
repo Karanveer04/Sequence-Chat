@@ -101,7 +101,7 @@ class Worker extends SCWorker {
                         tree.push({
                           key: x.process,
                           name: x.process,
-                          source: (x.device.indexOf(serv) !== -1) ? "server.png" :
+                          source: (x.device.indexOf(serv) !== -1) ? "img/server.png" :
                            ""
                         })
                         count++
@@ -110,9 +110,9 @@ class Worker extends SCWorker {
                       else{
                         var path
                           if(x.device.indexOf(phone) !== -1){
-                            path = "/public/img/smartphone.png"
+                            path = "img/smartphone.png"
                           }else if(x.device.indexOf(comp) !== -1){
-                            path = "/public/img/computer.png"
+                            path = "img/computer.png"
                           }else{
                             path = ""
                           }
@@ -120,13 +120,13 @@ class Worker extends SCWorker {
                           key: x.device,
                           name: x.device,
                           parent: parent,
-                          source: path 
+                          source: path
                         })
                         tree.push({
                           key: x.process,
                           name: x.process,
                           parent: x.device,
-                          source: "/public/img/user.png"
+                          source: "img/user.png"
                         })
                       }
                     })
