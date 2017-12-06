@@ -32,13 +32,10 @@
 
 </div>
 
-    <div id="deployDiagramDiv"
-       style="width:500px; height:500px; background-color: transparent;">
+    <div id="diagramDiv"
+       style="width:500px; height:500px; background-color: transparent; margin: 0 auto">
     </div>
 
-        <div id="classDiagramDiv"
-     style="width:500px; height:500px; background-color: transparent;">
-    </div>
 
 
 <div class="l-wrap" id="wrap">
@@ -109,8 +106,9 @@
 
     deployChannel.watch(function(data){
             var $ = go.GraphObject.make;
+            clearGo(diagramDiv)
       var myDiagram =
-        $(go.Diagram, "deployDiagramDiv",
+        $(go.Diagram, "diagramDiv",
           {
             initialContentAlignment: go.Spot.Center, // center Diagram contents
             "undoManager.isEnabled": true, // enable Ctrl-Z to undo and Ctrl-Y to redo
@@ -121,7 +119,7 @@
       myDiagram.nodeTemplate =
         $(go.Node, "Horizontal",
           { background: "rgba(0, 0, 0, 0.05)"},
-          $(go.Picture, 
+          $(go.Picture,
 
       { margin: 10, width:50, height:50},
       // Picture.source is data bound to the "source" attribute of the model data
@@ -144,8 +142,9 @@
 
     classChannel.watch(function (data){
       var $ = go.GraphObject.make;
+      clearGo(diagramDiv)
       myDiagram =
-      $(go.Diagram, "classDiagramDiv",
+      $(go.Diagram, "diagramDiv",
         {
           initialContentAlignment: go.Spot.Center,
           "undoManager.isEnabled": true,
@@ -303,7 +302,7 @@
         $(go.Shape, { scale: 1.3, fill: "white" },
           new go.Binding("toArrow", "relationship", convertToArrow))
 
-      );        
+      );
       myDiagram.model = $(go.GraphLinksModel,
       {
         copiesArrays: true,
@@ -438,6 +437,11 @@
       });
     });
 
+    function clearGo(diagramDiv) {
+      if(go.Diagram.fromDiv(diagramDiv) != null){
+        go.Diagram.fromDiv(diagramDiv).div = null;
+      }
+    }
 </script>
 </body>
 </html>
