@@ -61,6 +61,8 @@
 <script type="text/javascript">
 
 
+
+
     // Initiate the connection to the server
     console.log("he");
     var socket = socketCluster.connect();
@@ -104,7 +106,16 @@
         }
     }
 
+    function clearDiv(divName){
+     var node = document.getElementById(divName);
+     while (node.hasChildNodes()) {
+      node.removeChild(node.firstChild);
+    }
+  }
+
     deployChannel.watch(function(data){
+      clearDiv('tab')
+      clearDiv('wrap')
             var $ = go.GraphObject.make;
             clearGo(diagramDiv)
       var myDiagram =
@@ -141,6 +152,8 @@
     });
 
     classChannel.watch(function (data){
+      clearDiv('tab')
+      clearDiv('wrap')
       var $ = go.GraphObject.make;
       clearGo(diagramDiv)
       myDiagram =
@@ -314,6 +327,9 @@
     });
 
     sampleChannel.watch(function (data) {
+      clearGo(diagramDiv)
+      clearDiv('wrap')
+      clearDiv('tab')
         var i = 0;
         function animate() {
             var fro = data[i].from;
@@ -330,7 +346,7 @@
                 var other = document.getElementById(user+fro);
                 var executionLog = document.getElementById('tab');
                 var message = data[i].message;
-                if (channels.includes(user + fro)) {
+                if (channels.includes(user + fro) && other !== null) {
 
                     other.innerHTML +=
                         '<li class="other">' +
@@ -342,7 +358,7 @@
                         '</div>' +
                         '</li>';
                 }
-                else if (channels.includes(fro + user)) {
+                else if (channels.includes(fro + user) && self !== null) {
                     self.innerHTML +=
                         '<li class="self">' +
                         '<div class="messages" id="box'+ i +'">' +
@@ -353,7 +369,7 @@
                         '</div>' +
                         '</li>';
                 }
-                else {
+                else if(div !== null){
                     div.innerHTML +=
                         '<div class="three-col-grid">' +
                         '<div class="grid-item">' +
