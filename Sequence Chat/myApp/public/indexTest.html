@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html xmlns:float="http://www.w3.org/1999/xhtml">
+<head>
+  <title>SocketCluster</title>
+  <link href="//fonts.googleapis.com/css?family=Roboto:100,300" rel="stylesheet" type="text/css">
+  <link rel="icon" type="image/png" href="/favicon.ico">
+  <link rel="stylesheet" href="style.css" type="text/css">
+  <script type="text/javascript" src="/socketcluster.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gojs/1.8.2/go.js"></script>
+  <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+</head>
+<body>
+<header>
+  <h1 id="center">Sequence C(h)at</h1>
+</header>
+<div id="dump">
+  <div id="drop_zone">
+    <h2> Drop Your JSon File here</h2>
+  </div>
+  <!--<input type="file" id="input">-->
+  <!--<input type="file" class="button" id="input" style="float: left; width:5%">-->
+
+  <label for="file-upload" class="custom-file-upload">
+    <i class="fa fa-cloud-upload"></i> Select File
+  </label>
+  <input id="file-upload" type="file"/>
+  <!--<input type='button' id='btnLoad' value='Load' onclick="loadFile(); this.style.visibility='hidden'" />-->
+  <input type="button" class="button" value="Execute" onclick="loadFile();"  style="float: right;  width: 9.9%;">
+
+
+</div>
+
+    <div id="deployDiagramDiv"
+       style="width:500px; height:500px; background-color: transparent;">
+    </div>
+
+        <div id="classDiagramDiv"
+     style="width:500px; height:500px; background-color: transparent;">
+    </div>
+
+<!--     <div id="seqDiagramDiv"
+ style="width:500px; height:500px; background-color: transparent;">
+</div> -->
+   <div id="seqDiagramDiv" style="border: solid 1px black; width: 100%; height: 400px",background-color: transparent;></div>
+  
+
+
+
+<div class="l-wrap" id="wrap">
+</div>
+
+
+<div class="min-open">Open Execution log</div>
+
+  <div class="min-close">X</div>
+
+<div class="bo"  id='bo'>
+  <table id="customers">
+    <thead>
+    <tr>
+      <th colspan="3" id="h3">Execution Log </th>
+    </tr>
+    </thead>
+    <tbody id="tab">
+    </tbody>
+  </table>
+</div>
+
+<script type="text/javascript">
+
+
+    // Initiate the connection to the server
+    console.log("he");
+    var socket = socketCluster.connect();
+    socket.on('error', function (err) {
+        throw 'Socket error - ' + err;
+    });
+    socket.on('connect', function () {
+        console.log('CONNECTED');
+    });
+
+    var channels = [];
+     var sampleChannel = socket.subscribe('sample');
+     var deployChannel = socket.subscribe('deploy');
+     var classChannel = socket.subscribe('class');
+     var sequenceChannel = socket.subscribe('sequence');
+
+      sampleChannel.on('subscribeFail', function (err) {
+        console.log('Failed to subscribe to the sequence channel due to error: ' + err);
+      });
+      deployChannel.on('subscribeFail', function (err) {
+        console.log('Failed to subscribe to the deploy channel due to error: ' + err);
+      });
+      classChannel.on('subscribeFail', function (err) {
+        console.log('Failed to subscribe to the class channel due to error: ' + err);
+      });
+       sequenceChannel.on('subscribeFail', function (err) {
+        console.log('Failed to subscribe to the class channel due to error: ' + err);
+      });
+
+    function loadFile() {
+        var file, fr;
+
+        if (typeof window.FileReader !== 'function') {
+            alert("The file API isn't supported on this browser yet.");
+            return;
+        }
+        var file = document.getElementById('file-upload').files[0];
+        fr = new FileReader();
+        fr.onload = receivedText;
+        fr.readAsText(file);
+
+        function receivedText(e) {
+            jsonData = e.target.result;
+            socket.emit('go', jsonData);
+        }
+    }
+
+    deployChannel.watch(function(data){
+      var $ = go.GraphObject.make;
+      var myDiagram =
+        $(go.Diagram, "deployDiagramDiv",
+          {
+            initialContentAlignment: go.Spot.Center, // center Diagram contents
+            "undoManager.isEnabled": true, // enable Ctrl-Z to undo and Ctrl-Y to redo
+            layout: $(go.TreeLayout, // specify a Diagram.layout that arranges trees
+                      { angle: 90, layerSpacing: 35 })
+          });
+      // the template we defined earlier
+      myDiagram.nodeTemplate =
+        $(go.Node, "Auto",
+          { background: "rgba(0, 0, 0, 0.05)"},
+          $(go.TextBlock, "Default Text",
+            { margin: 12, stroke: "white", font: "bold 16px sans-serif" },
+            new go.Binding("text", "name"))
+        );
+
+      // define a Link template that routes orthogonally, with no arrowhead
+      myDiagram.linkTemplate =
+        $(go.Link,
+          { routing: go.Link.Orthogonal, corner: 5 },
+          $(go.Shape, { strokeWidth: 3, stroke: "#555" })); // the link shape
+      var model = $(go.TreeModel);
+      model.nodeDataArray = data
+      myDiagram.model = model;
+
+    });
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    sequenceChannel.watch(function (data){
+      console.log(data[0]);
+      console.log(data[1]);
+
+    var $ = go.GraphObject.make;
+    myDiagram =
+      $(go.Diagram, "seqDiagramDiv", // must be the ID or reference to an HTML DIV
+        {
+          initialContentAlignment: go.Spot.Center,
+          allowCopy: false,
+   //       linkingTool: $(MessagingTool),  // defined below
+          "resizingTool.isGridSnapEnabled": true,
+          "draggingTool.gridSnapCellSize": new go.Size(1, MessageSpacing/4),
+          "draggingTool.isGridSnapEnabled": true,
+          // automatically extend Lifelines as Activities are moved or resized
+          "SelectionMoved": ensureLifelineHeights,
+          "PartResized": ensureLifelineHeights,
+          "undoManager.isEnabled": true
+        });
+
+    // define the Lifeline Node template.
+    myDiagram.groupTemplate =
+      $(go.Group, "Vertical",
+        {
+          locationSpot: go.Spot.Bottom,
+          locationObjectName: "HEADER",
+          minLocation: new go.Point(0, 0),
+          maxLocation: new go.Point(9999, 0),
+          selectionObjectName: "HEADER"
+        },
+        new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
+        $(go.Panel, "Auto",
+          { name: "HEADER" },
+          $(go.Shape, "Rectangle",
+            {
+              fill: $(go.Brush, "Linear", { 0: "#bbdefb", 1: go.Brush.darkenBy("#bbdefb", 0.1) }),
+              stroke: null }),
+          $(go.TextBlock,
+            { margin: 5,
+              font: "400 10pt Source Sans Pro, sans-serif"},
+            new go.Binding("text", "text"))
+        ),
+        $(go.Shape,
+          {
+            figure: "LineV",
+            fill: null,
+            stroke: "gray",
+            strokeDashArray: [3, 3],
+            width: 1,
+            alignment: go.Spot.Center,
+            portId: "",
+            fromLinkable: true,
+            fromLinkableDuplicates: true,
+            toLinkable: true,
+            toLinkableDuplicates: true,
+            cursor: "pointer"
+          },
+          new go.Binding("height", "duration", computeLifelineHeight))
+      );
+    // define the Activity Node template
+    myDiagram.nodeTemplate =
+      $(go.Node,
+        {
+          locationSpot: go.Spot.Top,
+          locationObjectName: "SHAPE",
+          minLocation: new go.Point(NaN, LinePrefix-ActivityStart),
+          maxLocation: new go.Point(NaN, 19999),
+          selectionObjectName: "SHAPE",
+          resizable: true,
+          resizeObjectName: "SHAPE",
+          resizeAdornmentTemplate:
+            $(go.Adornment, "Spot",
+              $(go.Placeholder),
+              $(go.Shape,  // only a bottom resize handle
+                { alignment: go.Spot.Bottom, cursor: "col-resize",
+                desiredSize: new go.Size(6, 6), fill: "yellow" })
+            )
+        },
+        new go.Binding("location", "", computeActivityLocation).makeTwoWay(backComputeActivityLocation),
+        $(go.Shape, "Rectangle",
+          {
+            name: "SHAPE",
+            fill: "white", stroke: "black",
+            width: ActivityWidth,
+            // allow Activities to be resized down to 1/4 of a time unit
+            minSize: new go.Size(ActivityWidth, computeActivityHeight(0.25))
+          },
+          new go.Binding("height", "duration", computeActivityHeight).makeTwoWay(backComputeActivityHeight))
+      );
+    // define the Message Link template.
+/*      myDiagram.linkTemplate =
+      $(MessageLink,  // defined below
+   //     { selectionAdorned: true, curviness: 0 },
+        $(go.Shape, "Rectangle",
+          { stroke: "black" }),
+        $(go.Shape,
+          { toArrow: "OpenTriangle", stroke: "black" }),
+        $(go.TextBlock,
+          {
+            font: "400 9pt Source Sans Pro, sans-serif",
+            segmentIndex: 0,
+            segmentOffset: new go.Point(NaN, NaN),
+            isMultiline: false,
+            editable: true
+          },
+          new go.Binding("text", "text").makeTwoWay())
+      );*/
+
+      //yeh kam krta hai 
+      myDiagram.linkTemplate =
+    $(go.Link,
+      { routing: go.Link.Orthogonal,  // may be either Orthogonal or AvoidsNodes
+        curve: go.Link.JumpOver },  // link route should avoid nodes
+   //    { selectionAdorned: true, curviness: 0 },
+      $(go.Shape, "Rectangle",
+          { stroke: "black" }),
+        $(go.Shape,
+          { toArrow: "OpenTriangle", stroke: "black" }),
+        $(go.TextBlock,
+          {
+            font: "400 9pt Source Sans Pro, sans-serif",
+            segmentIndex: 20,
+            segmentOffset: new go.Point(NaN, NaN),
+            isMultiline: true,
+            editable: false
+          },
+          new go.Binding("text", "text").makeTwoWay())
+    );
+
+    // create the graph by reading the JSON data saved in "mySavedModel" textarea element
+    load();
+  
+  function ensureLifelineHeights(e) {
+    // iterate over all Activities (ignore Groups)
+    var arr = myDiagram.model.nodeDataArray;
+    var max = -1;
+    for (var i = 0; i < arr.length; i++) {
+      var act = arr[i];
+      if (act.isGroup) continue;
+      max = Math.max(max, act.start + act.duration);
+    }
+    if (max > 0) {
+      // now iterate over only Groups
+      for (var i = 0; i < arr.length; i++) {
+        var gr = arr[i];
+        if (!gr.isGroup) continue;
+        if (max > gr.duration) {  // this only extends, never shrinks
+          myDiagram.model.setDataProperty(gr, "duration", max);
+        }
+      }
+    }
+  }
+  // some parameters
+  var LinePrefix = 20;  // vertical starting point in document for all Messages and Activations
+  var LineSuffix = 30;  // vertical length beyond the last message time
+  var MessageSpacing = 20;  // vertical distance between Messages at different steps
+  var ActivityWidth = 10;  // width of each vertical activity bar
+  var ActivityStart = 5;  // height before start message time
+  var ActivityEnd = 5;  // height beyond end message time
+  function computeLifelineHeight(duration) {
+    return LinePrefix + duration * MessageSpacing + LineSuffix;
+  }
+  function computeActivityLocation(act) {
+    var groupdata = myDiagram.model.findNodeDataForKey(act.group);
+    if (groupdata === null) return new go.Point();
+    // get location of Lifeline's starting point
+    var grouploc = go.Point.parse(groupdata.loc);
+    return new go.Point(grouploc.x, convertTimeToY(act.start) - ActivityStart);
+  }
+  function backComputeActivityLocation(loc, act) {
+    myDiagram.model.setDataProperty(act, "start", convertYToTime(loc.y + ActivityStart));
+  }
+  function computeActivityHeight(duration) {
+    return ActivityStart + duration * MessageSpacing + ActivityEnd;
+  }
+  function backComputeActivityHeight(height) {
+    return (height - ActivityStart - ActivityEnd) / MessageSpacing;
+  }
+  // time is just an abstract small non-negative integer
+  // here we map between an abstract time and a vertical position
+  function convertTimeToY(t) {
+    return t * MessageSpacing + LinePrefix;
+  }
+  function convertYToTime(y) {
+    return (y - LinePrefix) / MessageSpacing;
+  }
+  // a custom routed Link
+  /*
+  function MessageLink() {
+    go.Link.call(this);
+    this.time = 0;  // use this "time" value when this is the temporaryLink
+  }
+  go.Diagram.inherit(MessageLink, go.Link);
+  
+  MessageLink.prototype.getLinkPoint = function(node, port, spot, from, ortho, othernode, otherport) {
+    var p = port.getDocumentPoint(go.Spot.Center);
+    var r = new go.Rect(port.getDocumentPoint(go.Spot.TopLeft),
+                        port.getDocumentPoint(go.Spot.BottomRight));
+    var op = otherport.getDocumentPoint(go.Spot.Center);
+    var data = this.data[1];
+    var time = data !== data.time;  // if not bound, assume this has its own "time" property
+    var aw = this.findActivityWidth(node, time);
+    var x = (op.x > p.x ? p.x + aw / 2 : p.x - aw / 2);
+    var y = convertTimeToY(time);
+    return new go.Point(x, y);
+  };
+  MessageLink.prototype.findActivityWidth = function(node, time) {
+    var aw = ActivityWidth;
+    if (node instanceof go.Group) {
+      // see if there is an Activity Node at this point -- if not, connect the link directly with the Group's lifeline
+      if (!node.memberParts.any(function(mem) {
+              var act = mem.data;
+              return (act !== null && act.start <= time && time <= act.start + act.duration);
+      })) {
+        aw = 0;
+      }
+    }
+    return aw;
+  };
+  /** @override 
+  MessageLink.prototype.getLinkDirection = function(node, port, linkpoint, spot, from, ortho, othernode, otherport) {
+    var p = port.getDocumentPoint(go.Spot.Center);
+    var op = otherport.getDocumentPoint(go.Spot.Center);
+    var right = op.x > p.x;
+    return right ? 0 : 180;
+  };
+  /** @override 
+  MessageLink.prototype.computePoints = function() {
+    if (this.fromNode === this.toNode) {  // also handle a reflexive link as a simple orthogonal loop
+      var data = this.data;
+      var time = data !== null ? data.time : this.time;  // if not bound, assume this has its own "time" property
+      var p = this.fromNode.port.getDocumentPoint(go.Spot.Center);
+      var aw = this.findActivityWidth(this.fromNode, time);
+      var x = p.x + aw / 2;
+      var y = convertTimeToY(time);
+      this.clearPoints();
+      this.addPoint(new go.Point(x, y));
+      this.addPoint(new go.Point(x + 50, y));
+      this.addPoint(new go.Point(x + 50, y + 5));
+      this.addPoint(new go.Point(x, y + 5));
+      return true;
+    } else {
+      return go.Link.prototype.computePoints.call(this);
+    }
+  }
+  // end MessageLink
+  // a custom LinkingTool that fixes the "time" (i.e. the Y coordinate)
+  // for both the temporaryLink and the actual newly created Link
+  function MessagingTool() {
+    go.LinkingTool.call(this);
+
+    var $ = go.GraphObject.make;
+    this.temporaryLink =
+      $(MessageLink,
+        $(go.Shape, "Rectangle",
+          { stroke: "magenta", strokeWidth: 2 }),
+        $(go.Shape,
+          { toArrow: "OpenTriangle", stroke: "magenta" }));
+  };
+  go.Diagram.inherit(MessagingTool, go.LinkingTool);
+  /** @override 
+  MessagingTool.prototype.doActivate = function() {
+    go.LinkingTool.prototype.doActivate.call(this);
+    var time = convertYToTime(this.diagram.firstInput.documentPoint.y);
+    this.temporaryLink.time = Math.ceil(time);  // round up to an integer value
+  };
+  /** @override 
+  MessagingTool.prototype.insertLink = function(fromnode, fromport, tonode, toport) {
+    var newlink = go.LinkingTool.prototype.insertLink.call(this, fromnode, fromport, tonode, toport);
+    if (newlink !== null) {
+      var model = this.diagram.model;
+      // specify the time of the message
+      var start = this.temporaryLink.time;
+      var duration = 1;
+      newlink.data.time = start;
+      model.setDataProperty(newlink.data, "text", "msg");
+      // and create a new Activity node data in the "to" group data
+      var newact = {
+        group: newlink.data.to,
+        start: start,
+        duration: duration
+      };
+      model.addNodeData(newact);
+      // now make sure all Lifelines are long enough
+      ensureLifelineHeights();
+    }
+    return newlink;
+  };*/
+  // end MessagingTool
+  // Show the diagram's model in JSON format
+
+  function load() {
+    myDiagram.model = new go.GraphLinksModel(data[0], data[1]);
+  /*  myDiagram.model = $(go.GraphLinksModel,
+      {
+        nodeDataArray: data[0],
+        linkDataArray: data[1]
+      });*/
+  }
+
+      });
+
+
+      
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    classChannel.watch(function (data){
+      var $ = go.GraphObject.make;
+      myDiagram =
+      $(go.Diagram, "classDiagramDiv",
+        {
+          initialContentAlignment: go.Spot.Center,
+          "undoManager.isEnabled": true,
+          layout: $(go.TreeLayout,
+                    { // this only lays out in trees nodes connected by "generalization" links
+                      angle: 90,
+                      path: go.TreeLayout.PathSource,  // links go from child to parent
+                      setsPortSpot: false,  // keep Spot.AllSides for link connection spot
+                      setsChildPortSpot: false,  // keep Spot.AllSides
+                      // nodes not connected by "generalization" links are laid out horizontally
+                      arrangement: go.TreeLayout.ArrangementHorizontal
+                    })
+        });
+
+      var propertyTemplate =
+      $(go.Panel, "Horizontal",
+        $(go.TextBlock,
+          { isMultiline: false, editable: true },
+          new go.Binding("text", "name").makeTwoWay(),
+          new go.Binding("isUnderline", "scope", function(s) { return s[0] === 'c' })),
+        // property type, if known
+        $(go.TextBlock, "",
+          new go.Binding("text", "type", function(t) { return (t ? ": " : ""); })),
+        $(go.TextBlock,
+          { isMultiline: false, editable: true },
+          new go.Binding("text", "type").makeTwoWay()),
+        // property default value, if any
+        $(go.TextBlock,
+          { isMultiline: false, editable: false },
+          new go.Binding("text", "default", function(s) { return s ? " = " + s : ""; }))
+      );
+
+    // the item template for methods
+      var methodTemplate =
+      $(go.Panel, "Horizontal",
+        $(go.TextBlock,
+          { isMultiline: false, editable: true },
+          new go.Binding("text", "name").makeTwoWay(),
+          new go.Binding("isUnderline", "scope", function(s) { return s[0] === 'c' })),
+        // method parameters
+        $(go.TextBlock, "()",
+          // this does not permit adding/editing/removing of parameters via inplace edits
+          new go.Binding("text", "parameters", function(parr) {
+              var s = "(";
+              for (var i = 0; i < parr.length; i++) {
+                var param = parr[i];
+                if (i > 0) s += ", ";
+                s += param.name + ": " + param.type;
+              }
+              return s + ")";
+          })),
+        // method return type, if any
+        $(go.TextBlock, "",
+          new go.Binding("text", "type", function(t) { return (t ? ": " : ""); })),
+        $(go.TextBlock,
+          { isMultiline: false, editable: true },
+          new go.Binding("text", "type").makeTwoWay())
+      );
+
+      myDiagram.nodeTemplate =
+      $(go.Node, "Auto",
+        {
+          locationSpot: go.Spot.Center,
+          fromSpot: go.Spot.AllSides,
+          toSpot: go.Spot.AllSides
+        },
+        $(go.Shape, { fill: "#6A5ACD" }),
+        $(go.Panel, "Table",
+          { defaultRowSeparatorStroke: "black" },
+          // header
+          $(go.TextBlock,
+            {
+              row: 0, columnSpan: 2, margin: 3, alignment: go.Spot.Center,
+              font: "bold 12pt sans-serif",
+              isMultiline: false, editable: true
+            },
+            new go.Binding("text", "name").makeTwoWay()),
+          // properties
+          $(go.TextBlock, "Properties",
+            { row: 1, font: "italic 10pt sans-serif" },
+            new go.Binding("visible", "visible", function(v) { return !v; }).ofObject("PROPERTIES")),
+          $(go.Panel, "Vertical", { name: "PROPERTIES" },
+            new go.Binding("itemArray", "properties"),
+            {
+              row: 1, margin: 3, stretch: go.GraphObject.Fill,
+              defaultAlignment: go.Spot.Left, background: "#6A5ACD", // highlighting the text
+              itemTemplate: propertyTemplate
+            }
+          ),
+
+          $("PanelExpanderButton", "PROPERTIES",
+            { row: 1, column: 1, alignment: go.Spot.TopRight, visible: false },
+            new go.Binding("visible", "properties", function(arr) { return arr.length > 0; })),
+          // methods
+          $(go.TextBlock, "Methods",
+            { row: 2, font: "italic 10pt sans-serif" },
+            new go.Binding("visible", "visible", function(v) { return !v; }).ofObject("METHODS")),
+          $(go.Panel, "Vertical", { name: "METHODS" },
+            new go.Binding("itemArray", "methods"),
+            {
+              row: 2, margin: 3, stretch: go.GraphObject.Fill,
+              defaultAlignment: go.Spot.Left, background: "#6A5ACD", // highlight method text
+              itemTemplate: methodTemplate
+            }
+          ),
+
+          $("PanelExpanderButton", "METHODS",
+            { row: 2, column: 1, alignment: go.Spot.TopRight, visible: false },
+            new go.Binding("visible", "methods", function(arr) { return arr.length > 0; }))
+        )
+      );
+
+
+      function convertIsTreeLink(r) {
+        switch (r) {
+        case "aggregation": return r === "aggregation";
+        case "generalization": return r === "generalization";
+        case "inheritance": return r === "inheritance";
+        case "composition": return r === "composition";
+      }
+    }
+      function convertFromArrow(r) {
+        switch (r) {
+        case "aggregation": return "";
+        case "generalization": return"";
+        case "inheritance": return"";
+        case "composition": return"";
+        default: return "";
+      }
+    }
+      function convertToArrow(r) {
+        switch (r) {
+        case "generalization": return"Triangle";
+        case "inheritance": return "Triangle";
+        case "aggregation": return "StretchedDiamond";
+        case "composition": return "StretchedDiamond";
+        default: return "";
+      }
+    }
+/*      function whatColor(r){
+        switch (r) {
+        case "generalization": return"white";
+        case "inheritance": return "white";
+        case "aggregation": return "white";
+        case "composition": return "black";
+      }
+    }*/
+      myDiagram.linkTemplate =
+      $(go.Link,
+        { routing: go.Link.Orthogonal },
+        new go.Binding("isLayoutPositioned", "relationship", convertIsTreeLink),
+        $(go.Shape),
+        $(go.Shape, { scale: 1.3, fill: "white" },
+          new go.Binding("fromArrow", "relationship", convertFromArrow)),
+        $(go.Shape, { scale: 1.3, fill: "white" },
+          new go.Binding("toArrow", "relationship", convertToArrow))
+
+      );        
+      myDiagram.model = $(go.GraphLinksModel,
+      {
+        copiesArrays: true,
+        copiesArrayObjects: true,
+        nodeDataArray: data[0],
+        linkDataArray: data[1]
+      });
+    });
+
+    sampleChannel.watch(function (data) {
+        var i = 0;
+        function animate() {
+            var fro = data[i].from;
+            var user = data[i].to;
+            //var froPar = data[i].fromPar;
+            //var userPar = data[i].userPar;
+            //var messagePar = data[i].messagePar;
+            if (user !== undefined) {
+                var currentdate = new Date();
+                var datetime = currentdate.getMinutes() + ":"
+                    + currentdate.getSeconds();
+                var div = document.getElementById('wrap');
+                var self = document.getElementById(fro+user);
+                var other = document.getElementById(user+fro);
+                var executionLog = document.getElementById('tab');
+                var message = data[i].message;
+                if (channels.includes(user + fro)) {
+
+                    other.innerHTML +=
+                        '<li class="other">' +
+                        '<div class="messages" id="box'+ i +'">' +
+                        '<p id="message" class="animate">' + message + '</p>' +
+                        '<time>' +
+                        fro + ' • ' + datetime +
+                        '</time>' +
+                        '</div>' +
+                        '</li>';
+                }
+                else if (channels.includes(fro + user)) {
+                    self.innerHTML +=
+                        '<li class="self">' +
+                        '<div class="messages" id="box'+ i +'">' +
+                        '<p id="message" class="animate">' + message + '</p>' +
+                        '<time>' +
+                        fro + ' • ' + datetime +
+                        '</time>' +
+                        '</div>' +
+                        '</li>';
+                }
+                else {
+                    div.innerHTML +=
+                        '<div class="three-col-grid">' +
+                        '<div class="grid-item">' +
+                        '<section class="module">' +
+                        '<div class="top-bar">' +
+                        '<div class="left">' +
+                        '<span class="icon typicons-message"></span>' +
+                        '<h1 id="user">' + fro + " and " + user + '</h1>' +
+                        '</div>' +
+                        '</div>' +
+                        '<ol class="discussion" id="' + user + fro + '">' +
+                        '<li class="other">' +
+                        '<div class="messages" id="box'+ i +'">' +
+                        '<p id="message" class="animate">' + message + '</p>' +
+                        '<time id="time">' + fro + ' • ' + datetime + '</time>' +
+                        '</div>' +
+                        '</li>' +
+                        '</ol>' +
+                        '</section>' +
+                        '</div>' +
+                        '</div>';
+                    channels.push(user + fro);
+                }
+
+            }
+            $(document).ready(function() {
+                $("#box"+i).effect("highlight", {color:"#e0eb75"}, 1500);
+            });
+
+            console.log('RANDOM STREAM: ' + data[i].from + data[i].to + data[i].message);
+            executionLog.innerHTML+=
+                '<tr>'+
+                '<th>From</th>'+
+                '<th>To</th>'+
+                '<th>Message</th>'+
+                '</tr>'+
+                '<tr id='+i+' >'+ //risky business with the numbers
+                '<td>'+ data[i].from +'</td>'+
+                '<td>'+ data[i].to +'</td>'+
+                '<td>'+ data[i].message +'</td>'+
+                '</tr>';
+            i+=1;
+            if(i !== data.length) {
+                setTimeout(animate, 1500);
+            }
+        }
+        animate();
+    });
+
+    $(document).ready(function() {
+        $(document).on("click", "#customers tbody td", function() {
+            console.log('RANDOM STREAM: '+ $(this).closest('tr').attr('id'));
+            var nr = $(this).closest('tr').attr('id');
+            $("#box" + nr).effect("highlight", {color: "#C2C005"}, 1500);
+        });
+    });
+
+    $(function () {
+
+            $(".bo").hide();
+            $(".min-open").show();
+            $(".min-close").hide();
+
+      $(".min-open").on("click", function () {
+          $(".bo").show(100);
+          if ($(this).attr("class") == "min-open")
+          {
+            $(".min-open").hide();
+            $(".min-close").show();
+          }
+        });
+
+      $(".min-close").on("click", function () {
+        $(".bo").hide(100);
+
+        if ($(this).attr("class") == "min-close")
+        {
+          $(".min-open").show();
+          $(".min-close").hide();
+        }
+      });
+    });
+
+</script>
+
+
+<button onclick="load()">Load</button>
+
+
+</body>
+</html>
