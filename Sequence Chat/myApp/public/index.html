@@ -33,7 +33,7 @@
 </div>
 
     <div id="diagramDiv"
-       style="width:500px; height:500px; background-color: transparent; margin: 0 auto">
+         style="width:500px; height:500px; background-color: transparent; margin: 0 auto">
     </div>
 
 
@@ -327,103 +327,143 @@
     });
 
     sampleChannel.watch(function (data) {
-      clearGo(diagramDiv)
-      clearDiv('wrap')
-      clearDiv('tab')
+      clearGo(diagramDiv);
+      clearDiv('wrap');
+      clearDiv('tab');
         var i = 0;
+        var o = 0;
+        var v;
+        v = data.reduce(function(a,i,ii){
+            if (ii === 0){
+                return a
+            }
+            if (i.length > a.length){
+                return i
+            }
+            return a
+        });
+
         function animate() {
-            var fro = data[i].from;
-            var user = data[i].to;
-            //var froPar = data[i].fromPar;
-            //var userPar = data[i].userPar;
-            //var messagePar = data[i].messagePar;
-            if (user !== undefined) {
-                var currentdate = new Date();
-                var datetime = currentdate.getMinutes() + ":"
-                    + currentdate.getSeconds();
-                var div = document.getElementById('wrap');
-                var self = document.getElementById(fro+user);
-                var other = document.getElementById(user+fro);
-                var executionLog = document.getElementById('tab');
-                var message = data[i].message;
-                if (channels.includes(user + fro) && other !== null) {
+                var a = 0;
+                for(a; a < data.length; a++) {
+                    if(i < data[a].length) {
+                        var fro = data[a][i].from;
+                        var user = data[a][i].to;
+                        if (user !== undefined) {
+                            var currentdate = new Date();
+                            var datetime = currentdate.getMinutes() + ":"
+                                + currentdate.getSeconds();
+                            var div = document.getElementById('wrap');
+                            var self = document.getElementById(fro + user);
+                            var other = document.getElementById(user + fro);
+                            var executionLog = document.getElementById('tab');
+                            var message = data[a][i].message;
+                            if (channels.includes(user + fro) && other !== null) {
 
-                    other.innerHTML +=
-                        '<li class="other">' +
-                        '<div class="messages" id="box'+ i +'">' +
-                        '<p id="message" class="animate">' + message + '</p>' +
-                        '<time>' +
-                        fro + ' • ' + datetime +
-                        '</time>' +
-                        '</div>' +
-                        '</li>';
-                }
-                else if (channels.includes(fro + user) && self !== null) {
-                    self.innerHTML +=
-                        '<li class="self">' +
-                        '<div class="messages" id="box'+ i +'">' +
-                        '<p id="message" class="animate">' + message + '</p>' +
-                        '<time>' +
-                        fro + ' • ' + datetime +
-                        '</time>' +
-                        '</div>' +
-                        '</li>';
-                }
-                else if(div !== null){
-                    div.innerHTML +=
-                        '<div class="three-col-grid">' +
-                        '<div class="grid-item">' +
-                        '<section class="module">' +
-                        '<div class="top-bar">' +
-                        '<div class="left">' +
-                        '<span class="icon typicons-message"></span>' +
-                        '<h1 id="user">' + fro + " and " + user + '</h1>' +
-                        '</div>' +
-                        '</div>' +
-                        '<ol class="discussion" id="' + user + fro + '">' +
-                        '<li class="other">' +
-                        '<div class="messages" id="box'+ i +'">' +
-                        '<p id="message" class="animate">' + message + '</p>' +
-                        '<time id="time">' + fro + ' • ' + datetime + '</time>' +
-                        '</div>' +
-                        '</li>' +
-                        '</ol>' +
-                        '</section>' +
-                        '</div>' +
-                        '</div>';
-                    channels.push(user + fro);
-                }
+                                other.innerHTML +=
+                                    '<li class="other">' +
+                                    '<div class="messages" id="box' + o + '">' +
+                                    '<p id="message" class="animate">' + message + '</p>' +
+                                    '<time>' +
+                                    fro + ' • ' + datetime +
+                                    '</time>' +
+                                    '</div>' +
+                                    '</li>';
+                            }
+                            else if (channels.includes(fro + user) && self !== null) {
+                                self.innerHTML +=
+                                    '<li class="self">' +
+                                    '<div class="messages" id="box' + o + '">' +
+                                    '<p id="message" class="animate">' + message + '</p>' +
+                                    '<time>' +
+                                    fro + ' • ' + datetime +
+                                    '</time>' +
+                                    '</div>' +
+                                    '</li>';
+                            }
+                            else if (div !== null) {
+                                div.innerHTML +=
+                                    '<div class="three-col-grid">' +
+                                    '<div class="grid-item">' +
+                                    '<section class="module">' +
+                                    '<div class="top-bar">' +
+                                    '<div class="left">' +
+                                    '<span class="icon typicons-message"></span>' +
+                                    '<h1 id="user">' + fro + " and " + user + '</h1>' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '<ol class="discussion" id="' + user + fro + '">' +
+                                    '<li class="other">' +
+                                    '<div class="messages" id="box' + o + '">' +
+                                    '<p id="message" class="animate">' + message + '</p>' +
+                                    '<time id="time">' + fro + ' • ' + datetime + '</time>' +
+                                    '</div>' +
+                                    '</li>' +
+                                    '</ol>' +
+                                    '</section>' +
+                                    '</div>' +
+                                    '</div>';
+                                channels.push(user + fro);
+                            }
 
-            }
-            $(document).ready(function() {
-                $("#box"+i).effect("highlight", {color:"#e0eb75"}, 1500);
-            });
+                        }
 
-            console.log('RANDOM STREAM: ' + data[i].from + data[i].to + data[i].message);
-            executionLog.innerHTML+=
-                '<tr>'+
-                '<th>From</th>'+
-                '<th>To</th>'+
-                '<th>Message</th>'+
-                '</tr>'+
-                '<tr id='+i+' >'+ //risky business with the numbers
-                '<td>'+ data[i].from +'</td>'+
-                '<td>'+ data[i].to +'</td>'+
-                '<td>'+ data[i].message +'</td>'+
-                '</tr>';
-            i+=1;
-            if(i !== data.length) {
-                setTimeout(animate, 1500);
-            }
+                        $('html, body').animate({
+                            scrollTop: $("#box" + i).offset().top
+                        }, 1000);
+
+                        $(document).ready(function () {
+                            $("#box" + o).dequeue().effect("highlight", {color: "#e0eb75"}, 1500);
+                        });
+
+                        console.log('RANDOM STREAM: ' + data[a][i].from + data[a][i].to + data[a][i].message);
+                        executionLog.innerHTML +=
+                            '<tr>' +
+                            '<th>From</th>' +
+                            '<th>To</th>' +
+                            '<th>Message</th>' +
+                            '</tr>' +
+                            '<tr id=' + o + ' >' + //risky business with the numbers
+                            '<td>' + data[a][i].from + '</td>' +
+                            '<td>' + data[a][i].to + '</td>' +
+                            '<td>' + data[a][i].message + '</td>' +
+                            '</tr>';
+                        o++;
+                    }
+                }
+                if (i !== v.length) {
+                    console.log('RANDOM STREAM: ' + v.length);
+                    i += 1;
+                    setTimeout(animate, 2000);
+                }
         }
         animate();
     });
 
+    /*
+     $(document).ready(function() { //onclick
+         $(document).on("click", "#customers tbody td", function() {
+             console.log('RANDOM STREAM: '+ $(this).closest('tr').attr('id'));
+             var nr = $(this).closest('tr').attr('id');
+             $('#'+nr).effect("highlight", {color: "#C2C005"}, 1500);
+         });
+     });*/
+
     $(document).ready(function() {
-        $(document).on("click", "#customers tbody td", function() {
-            console.log('RANDOM STREAM: '+ $(this).closest('tr').attr('id'));
-            var nr = $(this).closest('tr').attr('id');
-            $("#box" + nr).effect("highlight", {color: "#C2C005"}, 1500);
+        var orig;
+        $(document).on("mouseenter", "#customers tbody td", function (e) {
+            var nr = $(e.target).closest('tr').attr('id');
+            orig = $('#box'+nr).css('background-color');
+            console.log('RANDOM STREAM: ' + orig);
+            //$('#'+ nr).addClass('hover');
+            $('#box'+nr).css({"background-color": "#e0eb75"});
+        });
+
+        $(document).on("mouseleave", "#customers tbody td", function (e) {
+            var nr = $(e.target).closest('tr').attr('id');
+            console.log('RANDOM STREAM: ' + $(this).closest('tr').attr('id'));
+            //$('#'+ nr).removeClass('hover');
+            $('#box'+nr).css({"background-color": orig});
         });
     });
 

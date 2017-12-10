@@ -42,13 +42,17 @@ class Worker extends SCWorker {
             socket.on('go', function (jsonData) {
                 //Read the JSON input
                 //Loop through the content of the JSON and send it to frontend
-                var arr = [];
-                //var arr2 = [];
-                //var tog = [];
                 var data = JSON.parse(jsonData);
 
                 if (data.type === 'sequence_diagram') {
+                    var arr = [];
+                    var tog = [];
+                    var i = 0;
+
+                    //tog.push(data.diagram.node); //first par or not
+
                     data.diagram.content.forEach(function (array) {
+                        //arr[i].push(array.node); //second
                         array.content.forEach(function (x) {
                             arr.push({
                                 from: x.from,
@@ -56,37 +60,16 @@ class Worker extends SCWorker {
                                 message: x.message
                             });
                         });
+                        tog.push(arr);
+                        arr = [];
                     });
 
-                    //working on the parallel diagrams
-                    /*if (data.diagram.node !== 'par') {
-                        data.diagram.content.content.forEach(function (x) {
-                            arr.push({
-                                from: x.from,
-                                to: x.to,
-                                message: x.message
-                            });
-                        });
-                        scServer.exchange.publish('sample', arr);
-                    }
-                    else {
-                        data.diagram.content.forEach(function (array) {
-                            arr2.push(array);
-                        });
-                        arr2[0].forEach(function (x) {
-                            arr2[1].forEach(function (xo) {
-                                arr.push({
-                                    from: x.from,
-                                    to: x.to,
-                                    message: x.message,
-                                    fromPar: xo.from,
-                                    toPar: xo.to,
-                                    messagePar: xo.message
-                                });
-                            });
-                        });
-                        */
-                    scServer.exchange.publish('sample', arr);
+                    /*
+                    for(i = 0; i < arr.length; i++){
+                        tog.push(arr[i]);
+                    }*/
+
+                    scServer.exchange.publish('sample', tog);
                 }
 
                 else if(data.type === 'deployment_diagram'){

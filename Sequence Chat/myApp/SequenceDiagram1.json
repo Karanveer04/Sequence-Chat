@@ -1,112 +1,181 @@
 {
-
-	"type"	:	"sequence_diagram",
-	"processes"	:	[
+	"meta" : {
+		"format" : "DIT029 format",
+		"version" : "1.0",
+		"extensions" : []
+	},
+	"type" : "sequence_diagram",
+	"processes" : [
 		{
-			"class"	:	"User",
-			"name"	:	"Filip"
+			"class" : "Wolf",
+			"name" : "wolf"
 		},
 		{
-			"class"	:	"User",
-			"name"	:	"Karan"
+			"class" : "Pig",
+			"name" : "firstLittlePig"
 		},
 		{
-			"class"	:	"User",
-			"name"	:	"Margit"
+			"class" : "Pig",
+			"name" : "secondLittlePig"
 		},
 		{
-			"class"	:	"User",
-			"name"	:	"Andrius"
+			"class" : "Pig",
+			"name" : "thirdLittlePig"
 		},
 		{
-			"class"	:	"User",
-			"name"	:	"Simon"
+			"class" : "StrawHouse",
+			"name" : "strawHouse"
 		},
 		{
-			"class"	:	"User",
-			"name"	:	"Per"
+			"class" : "StickHouse",
+			"name" : "stickHouse"
+		},
+		{
+			"class" : "BrickHouse",
+			"name" : "brickHouse"
+		},
+		{
+			"class" : "Chimney",
+			"name" : "chimney"
+		},
+		{
+			"class" : "PotOfWater",
+			"name" : "potOfWater"
 		}
 	],
-	"diagram"	:	{
-		"node"	:	"par",
-		"content"	:	[
-			{
-				"node"	:	"seq",
-				"content"	:	[
-					{
-						"node"	:	"send",
-						"from"	:	"Filip",
-						"to"	:	"Karan",
-						"message"	:	["Hello!"]
-					},
-					{
-						"node"	:	"send",
-						"from"	:	"Karan",
-						"to"	:	"Filip",
-						"message"	:	["Margit is a genius."]
-					},
-					{
-						"node"	:	"send",
-						"from"	:	"Filip",
-						"to"	:	"Margit",
-						"message"	:	["Karan hates you."]
-					},
-					{
-						"node"	:	"send",
-						"from"	:	"Filip",
-						"to"	:   "Andrius",
-						"message"	:	["I'm the real ScrumMaster."]
-					},
-					{
-						"node"	:	"send",
-						"from"	:	"Margit",
-						"to"	:	"Filip",
-						"message"	:	["What? Why? :("]
-					},
 
+	"diagram" : {
+		"node" : "par",
+		"content" : [
+			{
+				"node" : "seq",
+				"content" : [
 					{
-						"node"	:	"send",
-						"from"	:	"Andrius",
-						"to"	:	"Filip",
-						"message"	:	["Interesting."]
+						"node" : "send",
+						"from" : "firstLittlePig",
+						"to" : "strawHouse",
+						"message" : ["build"]
 					},
 					{
-						"node"	:	"send",
-						"from"	:	"Andrius",
-						"to"	:	"Simon",
-						"message"	:	["Filip is the real ScrumMaster."]
+						"node" : "send",
+						"from" : "wolf",
+						"to" : "wolf",
+						"message" : ["huff"]
 					},
 					{
-						"node"	:	"send",
-						"from"	:	"Simon",
-						"to"	:	"Andrius",
-						"message"	:	["What? You Sure?"]
+						"node" : "send",
+						"from" : "wolf",
+						"to" : "wolf",
+						"message" : ["puff"]
 					},
 					{
-						"node"	:	"send",
-						"from"	:	"Simon",
-						"to"	:	"Per",
-						"message"	:	["Jiu Jitsu Man!"]
+						"node" : "send",
+						"from" : "wolf",
+						"to" : "strawHouse",
+						"message" : ["blow"]
 					},
 					{
-						"node"	:	"send",
-						"from"	:	"Per",
-						"to"	:	"Simon",
-						"message"	:	["You are so lazy!"]
+						"node" : "send",
+						"from" : "strawHouse",
+						"to" : "strawHouse",
+						"message" : ["collapse"]
 					},
 					{
-						"node"	:	"send",
-						"from"	:	"Per",
-						"to"	:	"Karan",
-						"message"	:	["Don't be late!"]
+						"node" : "send",
+						"from" : "wolf",
+						"to" : "firstLittlePig",
+						"message" : ["eat"]
 					},
 					{
-						"node"	:	"send",
-						"from"	:	"Karan",
-						"to"	:	"Filip",
-						"message"	:	["Just kidding!"]
+						"node" : "send",
+						"from" : "secondLittlePig",
+						"to" : "stickHouse",
+						"message" : ["build"]
+					},
+					{
+						"node" : "send",
+						"from" : "wolf",
+						"to" : "wolf",
+						"message" : ["huff"]
+					},
+					{
+						"node" : "send",
+						"from" : "wolf",
+						"to" : "wolf",
+						"message" : ["puff"]
+					},
+					{
+						"node" : "send",
+						"from" : "wolf",
+						"to" : "stickHouse",
+						"message" : ["blow"]
+					},
+					{
+						"node" : "send",
+						"from" : "stickHouse",
+						"to" : "stickHouse",
+						"message" : ["collapse"]
+					},
+					{
+						"node" : "send",
+						"from" : "wolf",
+						"to" : "secondLittlePig",
+						"message" : ["eat"]
+					},
+					{
+						"node" : "send",
+						"from" : "thirdLittlePig",
+						"to" : "brickHouse",
+						"message" : ["build"]
+					},
+					{
+						"node" : "send",
+						"from" : "wolf",
+						"to" : "wolf",
+						"message" : ["huff"]
+					},
+					{
+						"node" : "send",
+						"from" : "wolf",
+						"to" : "wolf",
+						"message" : ["puff"]
+					},
+					{
+						"node" : "send",
+						"from" : "wolf",
+						"to" : "stickHouse",
+						"message" : ["blow"]
+					},
+					{
+						"node" : "send",
+						"from" : "thirdLittlePig",
+						"to" : "potOfWater",
+						"message" : ["heat"]
+					},
+					{
+						"node" : "send",
+						"from" : "potOfWater",
+						"to" : "potOfWater",
+						"message" : ["boil"]
+					},
+					{
+						"node" : "send",
+						"from" : "wolf",
+						"to" : "chimney",
+						"message" : ["climbDown"]
+					},
+					{
+						"node" : "send",
+						"from" : "wolf",
+						"to" : "potOfWater",
+						"message" : ["fallInto"]
+					},
+					{
+						"node" : "send",
+						"from" : "wolf",
+						"to" : "wolf",
+						"message" : ["die"]
 					}]
-			}
-		]
+			}]
 	}
 }

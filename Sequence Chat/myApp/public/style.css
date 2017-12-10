@@ -184,6 +184,11 @@ header {
 
 #customers tr:hover {background-color: #e0eb75;}
 
+.hover{
+    background-color:#e0eb75;
+    }
+
+
 #customers th {
     padding: 4px;
     border: 1px solid #ddd;
@@ -192,16 +197,13 @@ header {
     color: white;
 }
 
-#classDiagramDiv {
-    position: absolute;
-    left: 10%
+#diagramDiv{
+    position:absolute;
+    left:0;
+    right:0;
+    margin-left:auto;
+    margin-right:auto;
 }
-
-#deployDiagramDiv {
-    position: absolute;
-    right: 10%
-}
-
 
 .button {
     border: none;
