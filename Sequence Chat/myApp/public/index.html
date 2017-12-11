@@ -88,14 +88,17 @@
         console.log('Failed to subscribe to the class channel due to error: ' + err);
       });
 
-    function loadFile() {
+      function loadFile() {
         var file, fr;
-
         if (typeof window.FileReader !== 'function') {
             alert("The file API isn't supported on this browser yet.");
             return;
         }
         var file = document.getElementById('file-upload').files[0];
+        if(file.name.indexOf("json") < 0){
+        alert("Wrong input. Please use JSON-files only")
+        }
+        else{
         fr = new FileReader();
         fr.onload = receivedText;
         fr.readAsText(file);
@@ -105,6 +108,7 @@
             socket.emit('go', jsonData);
         }
     }
+  }
 
     function clearDiv(divName){
      var node = document.getElementById(divName);
