@@ -33,7 +33,7 @@
 </div>
 
     <div id="diagramDiv"
-         style="width:500px; height:500px; background-color: transparent; margin: 0 auto">
+         style="width:100%; height:100%; background-color: transparent; margin: 0 auto">
     </div>
 
 
@@ -369,6 +369,11 @@
                                     '</time>' +
                                     '</div>' +
                                     '</li>';
+
+                                $("#"+user+fro).scrollTop($("#"+user+fro)[0].scrollHeight);
+                                $('html, body').animate({
+                                    scrollTop: $("#" + user+fro ).offset().top
+                                }, 500);
                             }
                             else if (channels.includes(fro + user) && self !== null) {
                                 self.innerHTML +=
@@ -380,6 +385,10 @@
                                     '</time>' +
                                     '</div>' +
                                     '</li>';
+                                $("#"+fro+user).scrollTop($("#"+fro+user)[0].scrollHeight);
+                                $('html, body').animate({
+                                    scrollTop: $("#" + fro+user ).offset().top
+                                }, 500);
                             }
                             else if (div !== null) {
                                 div.innerHTML +=
@@ -404,16 +413,16 @@
                                     '</div>' +
                                     '</div>';
                                 channels.push(user + fro);
+                                $('html, body').animate({
+                                    scrollTop: $("#" + user+fro ).offset().top
+                                }, 1000);
                             }
 
                         }
 
-                        $('html, body').animate({
-                            scrollTop: $("#box" + i).offset().top
-                        }, 1000);
 
                         $(document).ready(function () {
-                            $("#box" + o).dequeue().effect("highlight", {color: "#e0eb75"}, 1500);
+                            $("#box" + o).effect("highlight", {color: "#e0eb75"}, 2500);
                         });
 
                         console.log('RANDOM STREAM: ' + data[a][i].from + data[a][i].to + data[a][i].message);
@@ -428,26 +437,24 @@
                             '<td>' + data[a][i].to + '</td>' +
                             '<td>' + data[a][i].message + '</td>' +
                             '</tr>';
+                        $("#bo").scrollTop($("#bo")[0].scrollHeight);
                         o++;
                     }
                 }
                 if (i !== v.length) {
                     console.log('RANDOM STREAM: ' + v.length);
                     i += 1;
-                    setTimeout(animate, 2000);
+                    setTimeout(animate, 2500);
                 }
         }
         animate();
     });
 
-    /*
-     $(document).ready(function() { //onclick
-         $(document).on("click", "#customers tbody td", function() {
-             console.log('RANDOM STREAM: '+ $(this).closest('tr').attr('id'));
-             var nr = $(this).closest('tr').attr('id');
-             $('#'+nr).effect("highlight", {color: "#C2C005"}, 1500);
-         });
-     });*/
+    $('body,html').bind('scroll mousedown wheel DOMMouseScroll mousewheel keyup', function(e){
+        if ( e.which > 0 || e.type === "mousedown" || e.type === "mousewheel"){
+            $("html,body").stop();
+        }
+    })
 
     $(document).ready(function() {
         var orig;
