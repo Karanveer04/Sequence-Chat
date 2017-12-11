@@ -72,6 +72,9 @@
     socket.on('connect', function () {
         console.log('CONNECTED');
     });
+        socket.on('diagramError', function(errorMsg){
+      alert(errorMsg);
+    })
 
     var channels = [];
      var sampleChannel = socket.subscribe('sample');

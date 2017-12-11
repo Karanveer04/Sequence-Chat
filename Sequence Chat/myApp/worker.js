@@ -147,7 +147,7 @@ class Worker extends SCWorker {
                 }
 
                 else{
-                    console.log('Wrong diagram');
+                    socket.emit('diagramError', 'Wrong diagram type, we only support SSD, Class and Deployment diagrams!')
                 }
 
             });
