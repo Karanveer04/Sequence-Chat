@@ -29,9 +29,9 @@
   </div>
 
 
-<div class="min-open">Open Execution log</div>
+<div class="min-open bo" >Open Execution log</div>
 
-  <div class="min-close">X</div>
+  <div class="min-close bo" >X</div>
 
 <div class="bo"  id='bo'>
   <table id="customers">
@@ -133,6 +133,11 @@
   }
 
     deployChannel.watch(function(data){
+        var bo = document.getElementsByClassName('bo'), i;
+
+        for (var i = 0; i < bo.length; i ++) {
+            bo[i].style.visibility = 'hidden';
+        }
       clearDiv('tab')
       clearDiv('wrap')
             var $ = go.GraphObject.make;
@@ -171,6 +176,11 @@
     });
 
     classChannel.watch(function (data){
+        var bo = document.getElementsByClassName('bo'), i;
+
+        for (var i = 0; i < bo.length; i ++) {
+            bo[i].style.visibility = 'hidden';
+        }
       clearDiv('tab')
       clearDiv('wrap')
       var $ = go.GraphObject.make;
@@ -346,6 +356,11 @@
     });
 
     sampleChannel.watch(function (data) {
+        var bo = document.getElementsByClassName('bo'), i;
+
+        for (var i = 0; i < bo.length; i ++) {
+            bo[i].style.visibility = 'visible';
+        }
       clearGo(diagramDiv);
       clearDiv('wrap');
       clearDiv('tab');
@@ -438,7 +453,9 @@
                             }
 
                         }
-
+                        //get original color as well
+                        //var p = o;
+                        //changeColor("#box"+o);
 
                         $(document).ready(function () {
                             $("#box" + o).effect("highlight", {color: "#e0eb75"}, 2500);
@@ -524,6 +541,14 @@
         go.Diagram.fromDiv(diagramDiv).div = null;
       }
     }
+
+    function changeColor(id){
+        $(id).stop().animate( {backgroundColor:'#e0eb75'}, {duration:500});
+        setTimeout(function() {
+            $(id).stop().animate( {backgroundColor:'white'}, {duration:500});
+        }, 1000);
+    }
+
 </script>
 </body>
 </html>
