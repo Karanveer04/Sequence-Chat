@@ -405,7 +405,11 @@
                                     '</div>' +
                                     '</li>';
 
-                                $("#"+user+fro).scrollTop($("#"+user+fro)[0].scrollHeight);
+                                //$("#"+user+fro).scrollTop($("#"+user+fro)[0].scrollHeight);
+
+                                $('#'+user+fro).stop().animate({
+                                    scrollTop: $('#'+user+fro)[0].scrollHeight
+                                }, 800);
                                 $('html, body').animate({
                                     scrollTop: $("#" + user+fro ).offset().top
                                 }, 500);
@@ -420,7 +424,10 @@
                                     '</time>' +
                                     '</div>' +
                                     '</li>';
-                                $("#"+fro+user).scrollTop($("#"+fro+user)[0].scrollHeight);
+                                //$("#"+fro+user).scrollTop($("#"+fro+user)[0].scrollHeight);
+                                $('#'+fro+user).stop().animate({
+                                    scrollTop: $('#'+fro+user)[0].scrollHeight
+                                }, 800);
                                 $('html, body').animate({
                                     scrollTop: $("#" + fro+user ).offset().top
                                 }, 500);
