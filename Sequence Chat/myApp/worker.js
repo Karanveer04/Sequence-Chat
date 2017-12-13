@@ -4,55 +4,32 @@ var fs = require('fs');
 var express = require('express');
 var serveStatic = require('serve-static');
 var path = require('path');
-var morgan = require('morgan');
-var healthChecker = require('sc-framework-health-check');
 var _ = require('lodash');
-
-
-var jsonData;
 
 class Worker extends SCWorker {
     run() {
         console.log('   >> Worker PID:', process.pid);
-        var environment = this.options.environment;
-
         var app = express();
 
         var httpServer = this.httpServer;
         var scServer = this.scServer;
-//testets
-        if (environment === 'dev') {
-            // Log every HTTP request. See https://github.com/expressjs/morgan for other
-            // available formats.
-            app.use(morgan('dev'));
-        }
-        app.use(serveStatic(path.resolve(__dirname, 'public')));
 
-        // Add GET /health-check express route
-        healthChecker.attach(this, app);
+        app.use(serveStatic(path.resolve(__dirname, 'public')));
 
         httpServer.on('request', app);
 
-        var count = 0;
 
-        /*
-          In here we handle our incoming realtime connections and listen for events.
-        */
         scServer.on('connection', function (socket) {
+          socket.on('pass', function(){
+            socket.emit('confirm', 'catpass')
+          })
             socket.on('go', function (jsonData) {
-                //Read the JSON input
-                //Loop through the content of the JSON and send it to frontend
                 var data = JSON.parse(jsonData);
 
                 if (data.type === 'sequence_diagram') {
                     var arr = [];
                     var tog = [];
-                    var i = 0;
-
-                    //tog.push(data.diagram.node); //first par or not
-
                     data.diagram.content.forEach(function (array) {
-                        //arr[i].push(array.node); //second
                         array.content.forEach(function (x) {
                             arr.push({
                                 from: x.from,
@@ -63,12 +40,6 @@ class Worker extends SCWorker {
                         tog.push(arr);
                         arr = [];
                     });
-
-                    /*
-                    for(i = 0; i < arr.length; i++){
-                        tog.push(arr[i]);
-                    }*/
-
                     scServer.exchange.publish('sample', tog);
                 }
 
@@ -152,15 +123,6 @@ class Worker extends SCWorker {
 
             });
 
-            var interval = setInterval(function () {
-                socket.emit('rand', {
-                    rand: Math.floor(Math.random() * 5)
-                });
-            }, 1000);
-
-            socket.on('disconnect', function () {
-                clearInterval(interval);
-            });
         });
     }
 }
