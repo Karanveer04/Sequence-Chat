@@ -171,7 +171,8 @@ header {
 #customers {
     font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
     border-collapse: collapse;
-    width: 100%;
+    width: 280px;
+    table-layout: fixed;
 
 }
 
@@ -179,6 +180,7 @@ header {
     border: 1px solid #ddd;
     padding: 8px;
     text-align: left;
+    word-break: break-all;
 }
 
 #customers tr:nth-child(even){background-color: #f2f2f2;}
