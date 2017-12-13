@@ -364,7 +364,7 @@
       clearGo(diagramDiv);
       clearDiv('wrap');
       clearDiv('tab');
-        var i = 0;
+        i = 0;
         var o = 0;
         var v;
         v = data.reduce(function(a,i,ii){
@@ -379,6 +379,7 @@
 
         function animate() {
                 var a = 0;
+                var m = 0;
                 for(a; a < data.length; a++) {
                     if(i < data[a].length) {
                         var fro = data[a][i].from;
@@ -453,13 +454,6 @@
                             }
 
                         }
-                        //get original color as well
-                        //var p = o;
-                        //changeColor("#box"+o);
-
-                        $(document).ready(function () {
-                            $("#box" + o).effect("highlight", {color: "#e0eb75"}, 2500);
-                        });
 
                         console.log('RANDOM STREAM: ' + data[a][i].from + data[a][i].to + data[a][i].message);
                         executionLog.innerHTML +=
@@ -475,8 +469,18 @@
                             '</tr>';
                         $("#bo").scrollTop($("#bo")[0].scrollHeight);
                         o++;
+                        m++;
                     }
                 }
+
+
+                for(m; m>0;m--) {
+                    $(document).ready(function () {
+                        $("#box" + (o - m)).effect("highlight", {color: "#e0eb75"}, 2500);
+                    });
+                }
+
+
                 if (i !== v.length) {
                     console.log('RANDOM STREAM: ' + v.length);
                     i += 1;
