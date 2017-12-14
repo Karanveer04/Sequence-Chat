@@ -124,6 +124,8 @@ class Worker extends SCWorker {
                 }
 
                 else{
+                    // If the input json is incorrect then a prompt is shown
+                    // Author: Filip Walldén and Simon Lofving
                     socket.emit('diagramError', 'Wrong diagram type, we only support SSD, Class and Deployment diagrams!')
                 }
 
