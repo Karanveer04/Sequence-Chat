@@ -20,12 +20,16 @@ class Worker extends SCWorker {
 
 
         scServer.on('connection', function (socket) {
+          //Connection with the frontend via sockets to send password
+          //Autor: Simon Lofving
           socket.on('pass', function(){
             socket.emit('confirm', 'catpass')
           })
+            //Recieve JSON file from frontend and parse it.
+            // The sequence diagram is the added to an array of objects
+            //and published to the to the right channel. Autor: Simon Lofving
             socket.on('go', function (jsonData) {
                 var data = JSON.parse(jsonData);
-
                 if (data.type === 'sequence_diagram') {
                     var arr = [];
                     var tog = [];
@@ -42,7 +46,9 @@ class Worker extends SCWorker {
                     });
                     scServer.exchange.publish('sample', tog);
                 }
-
+                //To parse the deployment diagram according to the GOJS structure
+                // The different parts are divided into server, processes and users.
+                // Lastly a array of objects is sent to the frontend. Autor: Simon Lofving and Filip Walldén. 
                 else if(data.type === 'deployment_diagram'){
                     var tree = []
                     var count = 0

@@ -46,23 +46,21 @@
 </div>
 
 <script type="text/javascript">
-
-
-
-
-    // Initiate the connection to the server
     var socket = socketCluster.connect();
+    // When the user enters the website she is asked to type a password.
+    // A message is sent to the backend via sockets and depending on answer
+    // The user either get admin status, which has upload buttons or user status,
+    //which only can view the diagrams. Autor Simon Lofving.
     var input = prompt("Enter your admin passphrase or leave blank if you're a user")
     socket.emit('pass',input);
     socket.on('confirm', function(pass){
       if (input===pass){
-        //alert("Welcome, admin! Now you can upload diagrams!")
         var exeBtn = document.createElement("input");
           exeBtn.setAttribute("type","button");
           exeBtn.setAttribute("class","button");
           exeBtn.setAttribute("value","Execute");
           exeBtn.setAttribute("onclick","loadFile()");
-          exeBtn.setAttribute("style","float: right;  width: 9.9%;");
+          exeBtn.setAttribute("style","float: right;");
 
         var fileUpload = document.createElement("INPUT");
           fileUpload.id = "file-upload";
@@ -124,16 +122,15 @@
         }
     }
   }
-
     function clearDiv(divName){
      var node = document.getElementById(divName);
      while (node.hasChildNodes()) {
       node.removeChild(node.firstChild);
     }
   }
-
+    // Code for displaying the Deployment Diagram implemented with the GoJS library.
+    //Author: Simon Lofving and Filip Walldén.
     deployChannel.watch(function(data){
-
         document.getElementsByClassName('min-close')[0].style.visibility='hidden';
         document.getElementsByClassName('min-open')[0].style.visibility='hidden';
         document.getElementsByClassName('bo')[0].style.visibility='hidden';
@@ -545,7 +542,7 @@
         }
       });
     });
-
+    // Clearing the Deployment and Class Diagram. Author: Simon Lofving
     function clearGo(diagramDiv) {
       if(go.Diagram.fromDiv(diagramDiv) != null){
         go.Diagram.fromDiv(diagramDiv).div = null;
