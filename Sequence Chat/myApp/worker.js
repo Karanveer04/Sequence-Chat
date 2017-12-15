@@ -93,6 +93,9 @@ class Worker extends SCWorker {
                     var newTree = _.uniqBy(tree, 'name')
                     scServer.exchange.publish('deploy', newTree)
                 }
+
+                //To parse the class diagram according to the GOJS structure
+                // An array of objects is sent to the frontend. Autor: Karanveer Singh and Margit Saal.
                 else if(data.type === 'class_diagram'){
                     //Code for parsing class diagram
                     //publish to the right channel

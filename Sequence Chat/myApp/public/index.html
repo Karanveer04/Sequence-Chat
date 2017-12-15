@@ -86,7 +86,9 @@
       alert(errorMsg);
     })
 
-    var channels = [];
+     // List of various Channels
+     // Author - Karan , Filip and Simon
+     var channels = [];
      var sampleChannel = socket.subscribe('sample');
      var deployChannel = socket.subscribe('deploy');
      var classChannel = socket.subscribe('class');
@@ -175,7 +177,8 @@
       myDiagram.model = model;
 
     });
-
+    // Code for displaying the Class Diagram implemented with the GoJS library.
+    //Authors: Karanveer Singh and Margit Saal.
     classChannel.watch(function (data){
         document.getElementsByClassName('min-close')[0].style.visibility='hidden';
         document.getElementsByClassName('min-open')[0].style.visibility='hidden';
@@ -298,7 +301,7 @@
         )
       );
 
-
+      // Various funcions for relationships.
       function convertIsTreeLink(r) {
         switch (r) {
         case "aggregation": return r === "aggregation";
@@ -325,14 +328,7 @@
         default: return "";
       }
     }
-/*      function whatColor(r){
-        switch (r) {
-        case "generalization": return"white";
-        case "inheritance": return "white";
-        case "aggregation": return "white";
-        case "composition": return "black";
-      }
-    }*/
+
       myDiagram.linkTemplate =
       $(go.Link,
         { routing: go.Link.Orthogonal },
